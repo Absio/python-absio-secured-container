@@ -1,4 +1,5 @@
 License Agreement
 =================
 
-See the LICENSE file of the library.
+.. literalinclude:: ../LICENSE
+    :language: none
