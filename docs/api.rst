@@ -242,7 +242,7 @@ type_=None)**
      then being removed locally and on the Absio API Server
      Application.
 
-**absio.container.get(container_id, include_content=True)**
+**absio.container.get(container_id)**
 
    Retrieves a container and decrypts it for use.
 
@@ -253,11 +253,7 @@ type_=None)**
    decrypted).
 
    :Parameters:
-      * **container_id** (*UUID*) – The ID of the container to fetch.
-
-      * **include_content** (*bool*) – Set to ``False`` to prevent
-        downloading and decrypting content.  This is helpful when the
-        content is very large.
+      **container_id** (*UUID*) – The ID of the container to fetch.
 
 **absio.container.get_events(container_type=None, container_id=None,
 action=None, starting_event_id=None)**
@@ -302,9 +298,15 @@ action=None, starting_event_id=None)**
    :Parameters:
       * **container_id** (*UUID*) – The ID of the container to update.
 
-      * **access** (*dict*) – The access granted to the container.  If
-        not specified, the currently defined access will be left
-        unchanged.
+      * **access** (*dict**, **list*) – Details about with whom the
+        container is shared and what permissions they have. If not
+        provided, the container will only be accessible to the
+        creator.  If ``access`` is a dict, the keys need to be user
+        IDs and the values are ``Access`` instances for that user.
+        Finally, ``access`` can be provided as a list of user IDs.
+        Default access will be granted for each user ID.  If
+        ``access`` is specified, then the updatee must explicitly be
+        included if they should have access.
 
       * **content** (*bytes*) – New content to be encrypted.
 
@@ -313,6 +315,8 @@ action=None, starting_event_id=None)**
 
       * **type** (*string*) – A new string to categorize the container
         on the Absio API Server Application.
+
+   Note: This function is currently not implemented.
 
 **class absio.crypto.container.Access(user_id, permissions=None,
 expiration=None, key=None)**
@@ -591,7 +595,8 @@ passphrase_validator=<function is_passphrase_valid>)**
         validation.
 
 **absio.user.change_password(user_id, passphrase, new_password,
-current_password=None, pass_validator=<function is_password_valid>)**
+current_password=None, password_validator=<function
+is_password_valid>)**
 
    Changes a user’s password to the new value.
 
@@ -616,15 +621,16 @@ current_password=None, pass_validator=<function is_password_valid>)**
         both sets of credentials (passphrase and password), not just
         the passphrase.
 
-      * **pass_validator** (*callable*) – An optional validator to
-        enforce password complexity requirements.  If provided, it
+      * **password_validator** (*callable*) – An optional validator to
+        enforce password complexity requirements. If provided, it
         should take a single argument (the password) and return a
         boolean indicating whether or not the password passes
         validation.
 
 **absio.user.create(password, reminder, passphrase,
-pass_validator=<function is_passphrase_valid>,
-reminder_validator=<function is_reminder_valid>)**
+password_validator=<function is_password_valid>,
+reminder_validator=<function is_reminder_valid>,
+passphrase_validator=<function is_passphrase_valid>)**
 
    Creates a new user, registering them on the Absio API Server
    Application
@@ -646,16 +652,22 @@ reminder_validator=<function is_reminder_valid>)**
       * **passphrase** (*string*) – Allows the user to reset the
         password and download their key file.
 
-      * **reminder_validator** (*callable*) – An optional validator to
-        enforce passphrase complexity requirements. If provided, it
-        should take a single argument (the passphrase) and return a
-        boolean indicating whether or not the passphrase passes
-        validation.
-
-      * **pass_validator** (*callable*) – An optional validator to
-        enforce password complexity requirements.  If provided, it
+      * **password_validator** (*callable*) – An optional validator to
+        enforce password complexity requirements. If provided, it
         should take a single argument (the password) and return a
         boolean indicating whether or not the password passes
+        validation.
+
+      * **reminder_validator** (*callable*) – An optional validator to
+        enforce passphrase complexity requirements. If provided, it
+        should take a single argument (the reminder) and return a
+        boolean indicating whether or not the reminder passes
+        validation.
+
+      * **passphrase_validator** (*callable*) – An optional validator
+        to enforce passphrase complexity requirements.  If provided,
+        it should take a single argument (the passphrase) and return a
+        boolean indicating whether or not the passphrase passes
         validation.
 
    :Returns:
