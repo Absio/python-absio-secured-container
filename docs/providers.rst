@@ -43,14 +43,15 @@ go where.  So while the default settings have the data being stored on both the 
 Application and in your local OFS, you can selectively mark specific content as being stored in
 just one location only::
 
-    from absio import providers, Container
+    from absio.crypto.container import Container
+    from absio.providers import provider, server, ofs
 
     # This content is only stored in the Absio API Server Application
-    with providers.server:
+    with provider(server):
         container = Container(...)
 
     # While this content is only stored locally in the OFS.
-    with providers.ofs:
+    with provider(ofs):
         container = Container(...)
 
     # And this content is stored in both locations.

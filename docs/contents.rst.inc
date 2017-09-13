@@ -16,3 +16,4 @@ User's Guide
    api
    support
    license
+   faq

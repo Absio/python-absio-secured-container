@@ -9,10 +9,9 @@ rapidly create and share encrypted content between users.
 Obtaining an API Key
 ~~~~~~~~~~~~~~~~~~~~
 
-The ``absio`` library requires a valid API Key that must be passed into the
-:func:`initialize() <absio.initialize>` function.  Obtain an API Key by contacting us here_ or
-sending an email to sales@absio.com. An API key should be considered private and protected as
-such.
+The ``absio`` library requires a valid API Key that must be passed into the :func:`initialize()
+<absio.initialize>` function.  Obtain an API Key by contacting us here_ or sending an email to
+sales@absio.com. An API key should be considered private and protected as such.
 
 .. _quickstart:
 
