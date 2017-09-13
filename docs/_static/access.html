@@ -1,274 +1,57 @@
 <div class="section" id="module-absio.access">
- <p>
-  The
-  <a class="reference internal" href="#absio.access.Access" title="absio.access.Access">
-   <code class="xref py py-class docutils literal">
-    <span class="pre">
-     Access
-    </span>
-   </code>
-  </a>
-  object is used by the container
-  <a class="reference internal" href="#absio.container.create" title="absio.container.create">
-   <code class="xref py py-func docutils literal">
-    <span class="pre">
-     create
-    </span>
-   </code>
-  </a>
-  ,
-  <a class="reference internal" href="#absio.container.update" title="absio.container.update">
-   <code class="xref py py-func docutils literal">
-    <span class="pre">
-     update
-    </span>
-   </code>
-  </a>
-  , and
-  <a class="reference internal" href="#absio.container.get" title="absio.container.get">
-   <code class="xref py py-func docutils literal">
-    <span class="pre">
-     get
-    </span>
-   </code>
-  </a>
-  functions to define a user’s access to a container.  The access information
-includes specific permissions and an optional expiration.
- </p>
- <dl class="class">
-  <dt id="absio.access.Access">
-   <em class="property">
-    class
-   </em>
-   <code class="descclassname">
-    absio.access.
-   </code>
-   <code class="descname">
-    Access
-   </code>
-   <span class="sig-paren">
-    (
-   </span>
-   <em>
-    user_id
-   </em>
-   ,
-   <em>
-    permissions=None
-   </em>
-   ,
-   <em>
-    expiration=None
-   </em>
-   ,
-   <em>
-    key=None
-   </em>
-   <span class="sig-paren">
-    )
-   </span>
-   <a class="headerlink" href="#absio.access.Access" title="Permalink to this definition">
-    ¶
-   </a>
-  </dt>
-  <dd>
-   <p>
-    Used to define a user’s access to a container.
-   </p>
-   <table class="docutils field-list" frame="void" rules="none">
-    <col class="field-name"/>
-    <col class="field-body"/>
-    <tbody valign="top">
-     <tr class="field-odd field">
-      <th class="field-name">
-       Parameters:
-      </th>
-      <td class="field-body">
-       <ul class="first last simple">
-        <li>
-         <strong>
-          user_id
-         </strong>
-         (
-         <em>
-          UUID
-         </em>
-         <em>
-          or
-         </em>
-         <em>
-          string
-         </em>
-         ) – For whom this access applies.
-        </li>
-        <li>
-         <strong>
-          permissions
-         </strong>
-         (
-         <a class="reference internal" href="#absio.permissions.Permissions" title="absio.permissions.Permissions">
-          <code class="xref py py-class docutils literal">
-           <span class="pre">
-            Permissions
-           </span>
-          </code>
-         </a>
-         or int) – What level of access they will have.
-        </li>
-        <li>
-         <strong>
-          expiration
-         </strong>
-         (
-         <em>
-          datetime
-         </em>
-         ) – When the access to the container will be revoked.  If
-         <code class="docutils literal">
-          <span class="pre">
-           None
-          </span>
-         </code>
-         , the
-access will never expire.
-        </li>
-        <li>
-         <strong>
-          key
-         </strong>
-         (
-         <em>
-          base64 encoded data
-         </em>
-         ) – The recipient’s key blob.
-        </li>
-       </ul>
-      </td>
-     </tr>
-    </tbody>
-   </table>
-   <dl class="attribute">
-    <dt id="absio.access.Access.created_at">
-     <code class="descname">
-      created_at
-     </code>
-     <a class="headerlink" href="#absio.access.Access.created_at" title="Permalink to this definition">
-      ¶
-     </a>
-    </dt>
-    <dd>
-    </dd>
-   </dl>
-   <dl class="attribute">
-    <dt id="absio.access.Access.created_by">
-     <code class="descname">
-      created_by
-     </code>
-     <a class="headerlink" href="#absio.access.Access.created_by" title="Permalink to this definition">
-      ¶
-     </a>
-    </dt>
-    <dd>
-    </dd>
-   </dl>
-   <dl class="attribute">
-    <dt id="absio.access.Access.key_blob">
-     <code class="descname">
-      key_blob
-     </code>
-     <a class="headerlink" href="#absio.access.Access.key_blob" title="Permalink to this definition">
-      ¶
-     </a>
-    </dt>
-    <dd>
-     <p>
-      The unique keys required to decrypt the container, for this particular access.
-     </p>
-    </dd>
-   </dl>
-   <dl class="attribute">
-    <dt id="absio.access.Access.modified_at">
-     <code class="descname">
-      modified_at
-     </code>
-     <a class="headerlink" href="#absio.access.Access.modified_at" title="Permalink to this definition">
-      ¶
-     </a>
-    </dt>
-    <dd>
-    </dd>
-   </dl>
-   <dl class="attribute">
-    <dt id="absio.access.Access.modified_by">
-     <code class="descname">
-      modified_by
-     </code>
-     <a class="headerlink" href="#absio.access.Access.modified_by" title="Permalink to this definition">
-      ¶
-     </a>
-    </dt>
-    <dd>
-    </dd>
-   </dl>
-   <dl class="attribute">
-    <dt id="absio.access.Access.permissions">
-     <code class="descname">
-      permissions
-     </code>
-     <em class="property">
-      = None
-     </em>
-     <a class="headerlink" href="#absio.access.Access.permissions" title="Permalink to this definition">
-      ¶
-     </a>
-    </dt>
-    <dd>
-     <p>
-      The
-      <a class="reference internal" href="#absio.permissions.Permissions" title="absio.permissions.Permissions">
-       <code class="xref py py-class docutils literal">
-        <span class="pre">
-         Permissions
-        </span>
-       </code>
-      </a>
-      associated with this access.
-By default if
-      <code class="docutils literal">
-       <span class="pre">
-        None
-       </span>
-      </code>
-      is provided, a
-      <a class="reference internal" href="#absio.permissions.Permissions" title="absio.permissions.Permissions">
-       <code class="xref py py-class docutils literal">
-        <span class="pre">
-         Permissions
-        </span>
-       </code>
-      </a>
-      instance will be built, with full permissions.
-     </p>
-    </dd>
-   </dl>
-   <dl class="attribute">
-    <dt id="absio.access.Access.user_id">
-     <code class="descname">
-      user_id
-     </code>
-     <em class="property">
-      = None
-     </em>
-     <a class="headerlink" href="#absio.access.Access.user_id" title="Permalink to this definition">
-      ¶
-     </a>
-    </dt>
-    <dd>
-     <p>
-      The user to whom this access is for.
-     </p>
-    </dd>
-   </dl>
-  </dd>
- </dl>
+
+<p>The <a class="reference internal" href="#absio.access.Access" title="absio.access.Access"><code class="xref py py-class docutils literal"><span class="pre">Access</span></code></a> object is used by the container <a class="reference internal" href="#absio.container.create" title="absio.container.create"><code class="xref py py-func docutils literal"><span class="pre">create</span></code></a>, <a class="reference internal" href="#absio.container.update" title="absio.container.update"><code class="xref py py-func docutils literal"><span class="pre">update</span></code></a>, and <a class="reference internal" href="#absio.container.get" title="absio.container.get"><code class="xref py py-func docutils literal"><span class="pre">get</span></code></a> functions to define a user’s access to a container.  The access information
+includes specific permissions and an optional expiration.</p>
+<dl class="class">
+<dt id="absio.access.Access">
+<em class="property">class </em><code class="descclassname">absio.access.</code><code class="descname">Access</code><span class="sig-paren">(</span><em>user_id</em>, <em>permissions=None</em>, <em>expiration=None</em>, <em>key=None</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.access.Access" title="Permalink to this definition">¶</a></dt>
+<dd><p>Used to define a user’s access to a container.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name"/>
+<col class="field-body"/>
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>user_id</strong> (<em>UUID</em><em> or </em><em>string</em>) – For whom this access applies.</li>
+<li><strong>permissions</strong> (<a class="reference internal" href="#absio.permissions.Permissions" title="absio.permissions.Permissions"><code class="xref py py-class docutils literal"><span class="pre">Permissions</span></code></a> or int) – What level of access they will have.</li>
+<li><strong>expiration</strong> (<em>datetime</em>) – When the access to the container will be revoked.  If <code class="docutils literal"><span class="pre">None</span></code>, the
+access will never expire.</li>
+<li><strong>key</strong> (<em>base64 encoded data</em>) – The recipient’s key blob.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="absio.access.Access.created_at">
+<code class="descname">created_at</code><a class="headerlink" href="#absio.access.Access.created_at" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="attribute">
+<dt id="absio.access.Access.created_by">
+<code class="descname">created_by</code><a class="headerlink" href="#absio.access.Access.created_by" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="attribute">
+<dt id="absio.access.Access.key_blob">
+<code class="descname">key_blob</code><a class="headerlink" href="#absio.access.Access.key_blob" title="Permalink to this definition">¶</a></dt>
+<dd><p>The unique keys required to decrypt the container, for this particular access.</p>
+</dd></dl>
+<dl class="attribute">
+<dt id="absio.access.Access.modified_at">
+<code class="descname">modified_at</code><a class="headerlink" href="#absio.access.Access.modified_at" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="attribute">
+<dt id="absio.access.Access.modified_by">
+<code class="descname">modified_by</code><a class="headerlink" href="#absio.access.Access.modified_by" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="attribute">
+<dt id="absio.access.Access.permissions">
+<code class="descname">permissions</code><em class="property"> = None</em><a class="headerlink" href="#absio.access.Access.permissions" title="Permalink to this definition">¶</a></dt>
+<dd><p>The <a class="reference internal" href="#absio.permissions.Permissions" title="absio.permissions.Permissions"><code class="xref py py-class docutils literal"><span class="pre">Permissions</span></code></a> associated with this access.
+By default if <code class="docutils literal"><span class="pre">None</span></code> is provided, a <a class="reference internal" href="#absio.permissions.Permissions" title="absio.permissions.Permissions"><code class="xref py py-class docutils literal"><span class="pre">Permissions</span></code></a> instance will be built, with full permissions.</p>
+</dd></dl>
+<dl class="attribute">
+<dt id="absio.access.Access.user_id">
+<code class="descname">user_id</code><em class="property"> = None</em><a class="headerlink" href="#absio.access.Access.user_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>The user to whom this access is for.</p>
+</dd></dl>
+</dd></dl>
 </div>

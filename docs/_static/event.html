@@ -1,346 +1,71 @@
 <div class="section" id="module-absio.event">
- <dl class="class">
-  <dt id="absio.event.Event">
-   <em class="property">
-    class
-   </em>
-   <code class="descclassname">
-    absio.event.
-   </code>
-   <code class="descname">
-    Event
-   </code>
-   <span class="sig-paren">
-    (
-   </span>
-   <em>
-    action
-   </em>
-   ,
-   <em>
-    id
-   </em>
-   ,
-   <em>
-    changes
-   </em>
-   ,
-   <em>
-    client_app_name
-   </em>
-   ,
-   <em>
-    container_expired_at
-   </em>
-   ,
-   <em>
-    container_id
-   </em>
-   ,
-   <em>
-    container_modified_at
-   </em>
-   ,
-   <em>
-    container_type
-   </em>
-   ,
-   <em>
-    date
-   </em>
-   ,
-   <em>
-    related_user_id
-   </em>
-   ,
-   <em>
-    type
-   </em>
-   <span class="sig-paren">
-    )
-   </span>
-   <a class="headerlink" href="#absio.event.Event" title="Permalink to this definition">
-    ¶
-   </a>
-  </dt>
-  <dd>
-   <p>
-    Notification that something has happened.
-   </p>
-   <p>
-    The Absio API Server Application tracks all container and key file actions (accessed, added,
+
+<dl class="class">
+<dt id="absio.event.Event">
+<em class="property">class </em><code class="descclassname">absio.event.</code><code class="descname">Event</code><span class="sig-paren">(</span><em>action</em>, <em>id</em>, <em>changes</em>, <em>client_app_name</em>, <em>container_expired_at</em>, <em>container_id</em>, <em>container_modified_at</em>, <em>container_type</em>, <em>date</em>, <em>related_user_id</em>, <em>type</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.event.Event" title="Permalink to this definition">¶</a></dt>
+<dd><p>Notification that something has happened.</p>
+<p>The Absio API Server Application tracks all container and key file actions (accessed, added,
 updated, and deleted).  This information may help you become aware of new containers, or
-receive updates from other users.
-   </p>
-   <dl class="attribute">
-    <dt id="absio.event.Event.action">
-     <code class="descname">
-      action
-     </code>
-     <a class="headerlink" href="#absio.event.Event.action" title="Permalink to this definition">
-      ¶
-     </a>
-    </dt>
-    <dd>
-     <p>
-      Always one of
-      <code class="docutils literal">
-       <span class="pre">
-        accessed
-       </span>
-      </code>
-      ,
-      <code class="docutils literal">
-       <span class="pre">
-        added
-       </span>
-      </code>
-      ,
-      <code class="docutils literal">
-       <span class="pre">
-        deleted
-       </span>
-      </code>
-      , or
-      <code class="docutils literal">
-       <span class="pre">
-        updated
-       </span>
-      </code>
-      .
-     </p>
-    </dd>
-   </dl>
-   <dl class="attribute">
-    <dt id="absio.event.Event.id">
-     <code class="descname">
-      id
-     </code>
-     <a class="headerlink" href="#absio.event.Event.id" title="Permalink to this definition">
-      ¶
-     </a>
-    </dt>
-    <dd>
-     <p>
-      An integer value for this event.  Event IDs are constantly increasing.
-     </p>
-    </dd>
-   </dl>
-   <dl class="attribute">
-    <dt id="absio.event.Event.changes">
-     <code class="descname">
-      changes
-     </code>
-     <a class="headerlink" href="#absio.event.Event.changes" title="Permalink to this definition">
-      ¶
-     </a>
-    </dt>
-    <dd>
-     <p>
-      Information about what has changed.  For example:
-      <code class="docutils literal">
-       <span class="pre">
-        {'field
-       </span>
-       <span class="pre">
-        that
-       </span>
-       <span class="pre">
-        changed':
-       </span>
-       <span class="pre">
-        'updated
-       </span>
-       <span class="pre">
-        value'}
-       </span>
-      </code>
-     </p>
-    </dd>
-   </dl>
-   <dl class="attribute">
-    <dt id="absio.event.Event.client_app_name">
-     <code class="descname">
-      client_app_name
-     </code>
-     <a class="headerlink" href="#absio.event.Event.client_app_name" title="Permalink to this definition">
-      ¶
-     </a>
-    </dt>
-    <dd>
-     <p>
-      The name of the application responsible for the action.  This may or may not exist,
-depending on the settings configured in the responsible application.
-     </p>
-    </dd>
-   </dl>
-   <dl class="attribute">
-    <dt id="absio.event.Event.container_expired_at">
-     <code class="descname">
-      container_expired_at
-     </code>
-     <a class="headerlink" href="#absio.event.Event.container_expired_at" title="Permalink to this definition">
-      ¶
-     </a>
-    </dt>
-    <dd>
-     <p>
-      A
-      <code class="docutils literal">
-       <span class="pre">
-        datetime
-       </span>
-      </code>
-      object if the container has expired,
-      <code class="docutils literal">
-       <span class="pre">
-        None
-       </span>
-      </code>
-      otherwise.
-     </p>
-    </dd>
-   </dl>
-   <dl class="attribute">
-    <dt id="absio.event.Event.container_id">
-     <code class="descname">
-      container_id
-     </code>
-     <a class="headerlink" href="#absio.event.Event.container_id" title="Permalink to this definition">
-      ¶
-     </a>
-    </dt>
-    <dd>
-     <p>
-      The container ID (
-      <code class="docutils literal">
-       <span class="pre">
-        UUID
-       </span>
-      </code>
-      ) that this event relates to, if type is
-      <code class="docutils literal">
-       <span class="pre">
-        container
-       </span>
-      </code>
-      .
-     </p>
-    </dd>
-   </dl>
-   <dl class="attribute">
-    <dt id="absio.event.Event.container_modified_at">
-     <code class="descname">
-      container_modified_at
-     </code>
-     <a class="headerlink" href="#absio.event.Event.container_modified_at" title="Permalink to this definition">
-      ¶
-     </a>
-    </dt>
-    <dd>
-     <p>
-      A
-      <code class="docutils literal">
-       <span class="pre">
-        datetime
-       </span>
-      </code>
-      object corresponding to when the container content was last modified.  It
+receive updates from other users.</p>
+<dl class="attribute">
+<dt id="absio.event.Event.action">
+<code class="descname">action</code><a class="headerlink" href="#absio.event.Event.action" title="Permalink to this definition">¶</a></dt>
+<dd><p>Always one of <code class="docutils literal"><span class="pre">accessed</span></code>, <code class="docutils literal"><span class="pre">added</span></code>, <code class="docutils literal"><span class="pre">deleted</span></code>, or <code class="docutils literal"><span class="pre">updated</span></code>.</p>
+</dd></dl>
+<dl class="attribute">
+<dt id="absio.event.Event.id">
+<code class="descname">id</code><a class="headerlink" href="#absio.event.Event.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>An integer value for this event.  Event IDs are constantly increasing.</p>
+</dd></dl>
+<dl class="attribute">
+<dt id="absio.event.Event.changes">
+<code class="descname">changes</code><a class="headerlink" href="#absio.event.Event.changes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Information about what has changed.  For example:
+<code class="docutils literal"><span class="pre">{'field</span> <span class="pre">that</span> <span class="pre">changed':</span> <span class="pre">'updated</span> <span class="pre">value'}</span></code></p>
+</dd></dl>
+<dl class="attribute">
+<dt id="absio.event.Event.client_app_name">
+<code class="descname">client_app_name</code><a class="headerlink" href="#absio.event.Event.client_app_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the application responsible for the action.  This may or may not exist,
+depending on the settings configured in the responsible application.</p>
+</dd></dl>
+<dl class="attribute">
+<dt id="absio.event.Event.container_expired_at">
+<code class="descname">container_expired_at</code><a class="headerlink" href="#absio.event.Event.container_expired_at" title="Permalink to this definition">¶</a></dt>
+<dd><p>A <code class="docutils literal"><span class="pre">datetime</span></code> object if the container has expired, <code class="docutils literal"><span class="pre">None</span></code> otherwise.</p>
+</dd></dl>
+<dl class="attribute">
+<dt id="absio.event.Event.container_id">
+<code class="descname">container_id</code><a class="headerlink" href="#absio.event.Event.container_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>The container ID (<code class="docutils literal"><span class="pre">UUID</span></code>) that this event relates to, if type is <code class="docutils literal"><span class="pre">container</span></code>.</p>
+</dd></dl>
+<dl class="attribute">
+<dt id="absio.event.Event.container_modified_at">
+<code class="descname">container_modified_at</code><a class="headerlink" href="#absio.event.Event.container_modified_at" title="Permalink to this definition">¶</a></dt>
+<dd><p>A <code class="docutils literal"><span class="pre">datetime</span></code> object corresponding to when the container content was last modified.  It
 does not change when updating the access, header, or type of a container and will be
-      <code class="docutils literal">
-       <span class="pre">
-        None
-       </span>
-      </code>
-      in those cases.
-     </p>
-    </dd>
-   </dl>
-   <dl class="attribute">
-    <dt id="absio.event.Event.container_type">
-     <code class="descname">
-      container_type
-     </code>
-     <a class="headerlink" href="#absio.event.Event.container_type" title="Permalink to this definition">
-      ¶
-     </a>
-    </dt>
-    <dd>
-     <p>
-      The container type as specified upon creation or last update.
-     </p>
-    </dd>
-   </dl>
-   <dl class="attribute">
-    <dt id="absio.event.Event.date">
-     <code class="descname">
-      date
-     </code>
-     <a class="headerlink" href="#absio.event.Event.date" title="Permalink to this definition">
-      ¶
-     </a>
-    </dt>
-    <dd>
-     <p>
-      A
-      <code class="docutils literal">
-       <span class="pre">
-        datetime
-       </span>
-      </code>
-      object corresponding to when the event occurred.
-     </p>
-    </dd>
-   </dl>
-   <dl class="attribute">
-    <dt id="absio.event.Event.related_user_id">
-     <code class="descname">
-      related_user_id
-     </code>
-     <a class="headerlink" href="#absio.event.Event.related_user_id" title="Permalink to this definition">
-      ¶
-     </a>
-    </dt>
-    <dd>
-     <p>
-      If this event relates or was triggered by another user, this field will be set to that
-user’s ID (
-      <code class="docutils literal">
-       <span class="pre">
-        UUID
-       </span>
-      </code>
-      ).
-     </p>
-    </dd>
-   </dl>
-   <dl class="attribute">
-    <dt id="absio.event.Event.type">
-     <code class="descname">
-      type
-     </code>
-     <a class="headerlink" href="#absio.event.Event.type" title="Permalink to this definition">
-      ¶
-     </a>
-    </dt>
-    <dd>
-     <p>
-      The event type, always one of
-      <code class="docutils literal">
-       <span class="pre">
-        container
-       </span>
-      </code>
-      or
-      <code class="docutils literal">
-       <span class="pre">
-        key_file
-       </span>
-      </code>
-      .
-     </p>
-    </dd>
-   </dl>
-  </dd>
- </dl>
+<code class="docutils literal"><span class="pre">None</span></code> in those cases.</p>
+</dd></dl>
+<dl class="attribute">
+<dt id="absio.event.Event.container_type">
+<code class="descname">container_type</code><a class="headerlink" href="#absio.event.Event.container_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>The container type as specified upon creation or last update.</p>
+</dd></dl>
+<dl class="attribute">
+<dt id="absio.event.Event.date">
+<code class="descname">date</code><a class="headerlink" href="#absio.event.Event.date" title="Permalink to this definition">¶</a></dt>
+<dd><p>A <code class="docutils literal"><span class="pre">datetime</span></code> object corresponding to when the event occurred.</p>
+</dd></dl>
+<dl class="attribute">
+<dt id="absio.event.Event.related_user_id">
+<code class="descname">related_user_id</code><a class="headerlink" href="#absio.event.Event.related_user_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>If this event relates or was triggered by another user, this field will be set to that
+user’s ID (<code class="docutils literal"><span class="pre">UUID</span></code>).</p>
+</dd></dl>
+<dl class="attribute">
+<dt id="absio.event.Event.type">
+<code class="descname">type</code><a class="headerlink" href="#absio.event.Event.type" title="Permalink to this definition">¶</a></dt>
+<dd><p>The event type, always one of <code class="docutils literal"><span class="pre">container</span></code> or <code class="docutils literal"><span class="pre">key_file</span></code>.</p>
+</dd></dl>
+</dd></dl>
 </div>
