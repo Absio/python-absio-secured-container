@@ -1,0 +1,1167 @@
+<div class="section" id="module-absio.container">
+ <p>
+  Containers are the method by which data is passed between users securely.
+ </p>
+ <p>
+  Crucial to utilizing a container is understanding ‘access’.  This specifies details such as
+with whom the container should be shared, what access and permissions are enabled, if the access
+should be revoked at a particular time, etc.
+ </p>
+ <p>
+  Containers have headers and content.  Headers are intended to include metadata information.  They
+could contain client-enforceable controls such as “is this recipient allowed to print” or
+identifiers that help tie the content back to something your system understands.  The only
+restriction is that the header must be JSON serializable, otherwise the sky is the limit as to
+what can be placed into the header.
+ </p>
+ <p>
+  The content is assumed to be a file body.  However, it too could be more JSON, or XML, or any
+other type of data.  The content is intended to be just that - the data.
+ </p>
+ <p>
+  Other metadata exists for containers that is not wrapped up and protected by encryption.  This
+information includes the date the container was created, when it was modified, the ‘type’, and the
+length of the container.
+ </p>
+ <dl class="function">
+  <dt id="absio.container.create">
+   <code class="descclassname">
+    absio.container.
+   </code>
+   <code class="descname">
+    create
+   </code>
+   <span class="sig-paren">
+    (
+   </span>
+   <em>
+    content
+   </em>
+   ,
+   <em>
+    access=None
+   </em>
+   ,
+   <em>
+    header=None
+   </em>
+   ,
+   <em>
+    type=None
+   </em>
+   <span class="sig-paren">
+    )
+   </span>
+   <a class="headerlink" href="#absio.container.create" title="Permalink to this definition">
+    ¶
+   </a>
+  </dt>
+  <dd>
+   <p>
+    Creates a
+    <a class="reference internal" href="#module-absio.crypto.container" title="absio.crypto.container">
+     <code class="xref py py-class docutils literal">
+      <span class="pre">
+       Container
+      </span>
+     </code>
+    </a>
+    .
+   </p>
+   <p>
+    The container will be uploaded to the Absio API Server Application and access will be granted
+to the specified users.  If local storage is being utilized, the container and associated
+access will also be stored in the OFS.
+   </p>
+   <p>
+    The container will never expire for the creator.  The creator is automatically granted full
+permissions to the container, unless a limited permission is defined in the
+    <code class="docutils literal">
+     <span class="pre">
+      access
+     </span>
+    </code>
+    kwarg.
+   </p>
+   <table class="docutils field-list" frame="void" rules="none">
+    <col class="field-name"/>
+    <col class="field-body"/>
+    <tbody valign="top">
+     <tr class="field-odd field">
+      <th class="field-name">
+       Parameters:
+      </th>
+      <td class="field-body">
+       <ul class="first simple">
+        <li>
+         <strong>
+          content
+         </strong>
+         (
+         <em>
+          bytes
+         </em>
+         ) – The data to be stored in a container.
+        </li>
+        <li>
+         <strong>
+          access
+         </strong>
+         (
+         <em>
+          dict
+         </em>
+         <em>
+          ,
+         </em>
+         <em>
+          list
+         </em>
+         ) – Details about with whom the container is shared and what permissions they have.
+If not provided, the container will only be accessible to the creator.  If
+         <code class="docutils literal">
+          <span class="pre">
+           access
+          </span>
+         </code>
+         is
+a dict, the keys need to be user IDs and the values are
+         <a class="reference internal" href="#absio.access.Access" title="absio.access.Access">
+          <code class="xref py py-class docutils literal">
+           <span class="pre">
+            Access
+           </span>
+          </code>
+         </a>
+         instances for that user.  Finally,
+         <code class="docutils literal">
+          <span class="pre">
+           access
+          </span>
+         </code>
+         can be
+provided as a list of user IDs.  Default access will be granted for each user ID.
+(Default access is different for the creator and the other recipients; check
+         <a class="reference internal" href="#perms-tbl">
+          <span class="std std-ref">
+           here
+          </span>
+         </a>
+         for more information.)  If
+         <code class="docutils literal">
+          <span class="pre">
+           access
+          </span>
+         </code>
+         is specified, then the
+creator must explicitly be included if they should have access.
+        </li>
+        <li>
+         <strong>
+          header
+         </strong>
+         (
+         <em>
+          JSON serializable data
+         </em>
+         ) – Optionally, containers may also contain headers.
+        </li>
+        <li>
+         <strong>
+          type
+         </strong>
+         (
+         <em>
+          string
+         </em>
+         ) – An optional clear bit of metadata that might help explain what type of data has
+been wrapped up into the container.  This can be used to organize containers
+on the Absio API Server Application.
+        </li>
+       </ul>
+      </td>
+     </tr>
+     <tr class="field-even field">
+      <th class="field-name">
+       Returns:
+      </th>
+      <td class="field-body">
+       <p class="first last">
+        The created
+        <a class="reference internal" href="#module-absio.crypto.container" title="absio.crypto.container">
+         <code class="xref py py-class docutils literal">
+          <span class="pre">
+           Container
+          </span>
+         </code>
+        </a>
+        .
+       </p>
+      </td>
+     </tr>
+    </tbody>
+   </table>
+   <p>
+    Usage:
+   </p>
+   <div class="highlight-default">
+    <div class="highlight">
+     <pre><span></span><span class="c1"># Create a container only accessible by yourself</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">container</span> <span class="o">=</span> <span class="n">create</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="s1">'asdf'</span><span class="p">)</span>
+<span class="o">&lt;</span><span class="n">Container</span><span class="p">(</span><span class="n">d21ba58c</span><span class="o">-</span><span class="mf">9e50</span><span class="o">-</span><span class="mi">472</span><span class="n">a</span><span class="o">-</span><span class="mi">9</span><span class="n">ce2</span><span class="o">-</span><span class="mi">5</span><span class="n">a2595704e7a</span><span class="p">)</span> <span class="n">Encrypted</span><span class="p">:</span> <span class="kc">True</span><span class="o">&gt;</span>
+
+<span class="c1"># Share with default permissions and access settings to multiple users</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">users</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'1d4c568b-e762-4284-b14e-167cc4776026'</span><span class="p">,</span> <span class="s1">'0e28abdc-1a8f-43db-b565-088161af2b53'</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">container</span> <span class="o">=</span> <span class="n">create</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="s1">'asdf'</span><span class="p">,</span> <span class="n">access</span><span class="o">=</span><span class="n">users</span><span class="p">)</span>
+<span class="o">&lt;</span><span class="n">Container</span><span class="p">(</span><span class="n">d21ba58c</span><span class="o">-</span><span class="mf">9e50</span><span class="o">-</span><span class="mi">472</span><span class="n">a</span><span class="o">-</span><span class="mi">9</span><span class="n">ce2</span><span class="o">-</span><span class="mi">5</span><span class="n">a2595704e7a</span><span class="p">)</span> <span class="n">Encrypted</span><span class="p">:</span> <span class="kc">True</span><span class="o">&gt;</span>
+
+<span class="c1"># Selectively fine-tune the access information</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">expiring_access</span> <span class="o">=</span> <span class="n">Access</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="s1">'1d4c568b-e762-4284-b14e-167cc4776026'</span><span class="p">,</span> <span class="n">expiration</span><span class="o">=</span><span class="n">utcnow</span><span class="p">())</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">permission</span> <span class="o">=</span> <span class="n">Permission</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">permission</span><span class="o">.</span><span class="n">container</span><span class="o">.</span><span class="n">download</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">limited_access</span> <span class="o">=</span> <span class="n">Access</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="s1">'0e28abdc-1a8f-43db-b565-088161af2b53'</span><span class="p">,</span> <span class="n">permission</span><span class="o">=</span><span class="n">permission</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">accesses</span> <span class="o">=</span> <span class="p">[</span><span class="n">expiring_access</span><span class="p">,</span> <span class="n">limited_access</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">container</span> <span class="o">=</span> <span class="n">create</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="s1">'asdf'</span><span class="p">,</span> <span class="n">access</span><span class="o">=</span><span class="p">{</span><span class="n">access</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="n">access</span> <span class="k">for</span> <span class="n">access</span> <span class="ow">in</span> <span class="n">accesses</span><span class="p">})</span>
+<span class="o">&lt;</span><span class="n">Container</span><span class="p">(</span><span class="n">d21ba58c</span><span class="o">-</span><span class="mf">9e50</span><span class="o">-</span><span class="mi">472</span><span class="n">a</span><span class="o">-</span><span class="mi">9</span><span class="n">ce2</span><span class="o">-</span><span class="mi">5</span><span class="n">a2595704e7a</span><span class="p">)</span> <span class="n">Encrypted</span><span class="p">:</span> <span class="kc">True</span><span class="o">&gt;</span>
+</pre>
+    </div>
+   </div>
+  </dd>
+ </dl>
+ <dl class="function">
+  <dt id="absio.container.delete">
+   <code class="descclassname">
+    absio.container.
+   </code>
+   <code class="descname">
+    delete
+   </code>
+   <span class="sig-paren">
+    (
+   </span>
+   <em>
+    container_id
+   </em>
+   <span class="sig-paren">
+    )
+   </span>
+   <a class="headerlink" href="#absio.container.delete" title="Permalink to this definition">
+    ¶
+   </a>
+  </dt>
+  <dd>
+   <p>
+    This revokes the authenticated user’s access to the container.
+   </p>
+   <p>
+    If local storage is being utilized, the container and the associated access will be removed
+from the OFS.  If the authenticated user is the only user with access, then the content will
+be deleted from the Absio API Server Application.
+   </p>
+   <table class="docutils field-list" frame="void" rules="none">
+    <col class="field-name"/>
+    <col class="field-body"/>
+    <tbody valign="top">
+     <tr class="field-odd field">
+      <th class="field-name">
+       Parameters:
+      </th>
+      <td class="field-body">
+       <strong>
+        container_id
+       </strong>
+       (
+       <em>
+        UUID
+       </em>
+       ) – The ID of the container to delete.
+      </td>
+     </tr>
+    </tbody>
+   </table>
+   <div class="admonition note">
+    <p class="first admonition-title">
+     Note
+    </p>
+    <p class="last">
+     If you want the container itself to be deleted, you must first remove all other user’s
+access to it and then call this function.  This will result in no other users having
+access and the content then being removed locally and on the Absio API Server Application.
+    </p>
+   </div>
+  </dd>
+ </dl>
+ <dl class="function">
+  <dt id="absio.container.get">
+   <code class="descclassname">
+    absio.container.
+   </code>
+   <code class="descname">
+    get
+   </code>
+   <span class="sig-paren">
+    (
+   </span>
+   <em>
+    container_id
+   </em>
+   <span class="sig-paren">
+    )
+   </span>
+   <a class="headerlink" href="#absio.container.get" title="Permalink to this definition">
+    ¶
+   </a>
+  </dt>
+  <dd>
+   <p>
+    Retrieves a container and decrypts it for use.
+   </p>
+   <p>
+    If local storage is being utilized, the library will first check the OFS.  If not using
+local storage or the container is not found, the latest version will be downloaded from the
+Absio API Server Application.  By default, the content is included (downloaded and decrypted).
+   </p>
+   <table class="docutils field-list" frame="void" rules="none">
+    <col class="field-name"/>
+    <col class="field-body"/>
+    <tbody valign="top">
+     <tr class="field-odd field">
+      <th class="field-name">
+       Parameters:
+      </th>
+      <td class="field-body">
+       <strong>
+        container_id
+       </strong>
+       (
+       <em>
+        UUID
+       </em>
+       ) – The ID of the container to fetch.
+      </td>
+     </tr>
+    </tbody>
+   </table>
+  </dd>
+ </dl>
+ <dl class="function">
+  <dt id="absio.container.get_events">
+   <code class="descclassname">
+    absio.container.
+   </code>
+   <code class="descname">
+    get_events
+   </code>
+   <span class="sig-paren">
+    (
+   </span>
+   <em>
+    container_type=None
+   </em>
+   ,
+   <em>
+    container_id=None
+   </em>
+   ,
+   <em>
+    action=None
+   </em>
+   ,
+   <em>
+    starting_event_id=None
+   </em>
+   <span class="sig-paren">
+    )
+   </span>
+   <a class="headerlink" href="#absio.container.get_events" title="Permalink to this definition">
+    ¶
+   </a>
+  </dt>
+  <dd>
+   <p>
+    Gets all new container events since the last call to this method.
+   </p>
+   <p>
+    If any of the arguments are provided, then they change the criteria used to query and filter
+results.  These events are retrieved from the Absio API Server Application.
+   </p>
+   <table class="docutils field-list" frame="void" rules="none">
+    <col class="field-name"/>
+    <col class="field-body"/>
+    <tbody valign="top">
+     <tr class="field-odd field">
+      <th class="field-name">
+       Parameters:
+      </th>
+      <td class="field-body">
+       <ul class="first simple">
+        <li>
+         <strong>
+          container_type
+         </strong>
+         (
+         <em>
+          string
+         </em>
+         ) – Only events of the specified container type will be returned.  Type
+is a string used to categorize containers on the Absio API Server
+Application.
+        </li>
+        <li>
+         <strong>
+          container_id
+         </strong>
+         (
+         <em>
+          UUID
+         </em>
+         ) – Filter the results to only include events related to the specified
+container ID.
+        </li>
+        <li>
+         <strong>
+          action
+         </strong>
+         (
+         <code class="xref py py-class docutils literal">
+          <span class="pre">
+           EventAction
+          </span>
+         </code>
+         ) – Filters the results to only include events that have the specified action.
+        </li>
+        <li>
+         <strong>
+          starting_event_id
+         </strong>
+         (
+         <em>
+          int
+         </em>
+         ) – 0 will start from the beginning and download all events for the
+current user with the specified criteria.  Use the event_id field
+from a container event to start from a known event.  If omitted,
+the newest events since the last call will be downloaded.
+        </li>
+       </ul>
+      </td>
+     </tr>
+     <tr class="field-even field">
+      <th class="field-name">
+       Returns:
+      </th>
+      <td class="field-body">
+       <p class="first">
+        All of the events that match the filter criteria.
+       </p>
+      </td>
+     </tr>
+     <tr class="field-odd field">
+      <th class="field-name">
+       Return type:
+      </th>
+      <td class="field-body">
+       <p class="first last">
+        <code class="docutils literal">
+         <span class="pre">
+          list
+         </span>
+        </code>
+        of
+        <a class="reference internal" href="#absio.event.Event" title="absio.event.Event">
+         <code class="xref py py-class docutils literal">
+          <span class="pre">
+           Events
+          </span>
+         </code>
+        </a>
+       </p>
+      </td>
+     </tr>
+    </tbody>
+   </table>
+  </dd>
+ </dl>
+ <dl class="function">
+  <dt id="absio.container.update">
+   <code class="descclassname">
+    absio.container.
+   </code>
+   <code class="descname">
+    update
+   </code>
+   <span class="sig-paren">
+    (
+   </span>
+   <em>
+    container_id
+   </em>
+   ,
+   <em>
+    **kwargs
+   </em>
+   <span class="sig-paren">
+    )
+   </span>
+   <a class="headerlink" href="#absio.container.update" title="Permalink to this definition">
+    ¶
+   </a>
+  </dt>
+  <dd>
+   <p>
+    Updates a container with the specified ID.
+   </p>
+   <p>
+    At least one of the optional kwargs must be provided for an update to occur.  This will update
+the container and access information on the Absio API Server Application as well as in the OFS.
+   </p>
+   <table class="docutils field-list" frame="void" rules="none">
+    <col class="field-name"/>
+    <col class="field-body"/>
+    <tbody valign="top">
+     <tr class="field-odd field">
+      <th class="field-name">
+       Parameters:
+      </th>
+      <td class="field-body">
+       <ul class="first last simple">
+        <li>
+         <strong>
+          container_id
+         </strong>
+         (
+         <em>
+          UUID
+         </em>
+         ) – The ID of the container to update.
+        </li>
+        <li>
+         <strong>
+          access
+         </strong>
+         (
+         <em>
+          dict
+         </em>
+         <em>
+          ,
+         </em>
+         <em>
+          list
+         </em>
+         ) – Details about with whom the container is shared and what permissions they have.
+If not provided, the container will only be accessible to the creator.  If
+         <code class="docutils literal">
+          <span class="pre">
+           access
+          </span>
+         </code>
+         is
+a dict, the keys need to be user IDs and the values are
+         <a class="reference internal" href="#absio.access.Access" title="absio.access.Access">
+          <code class="xref py py-class docutils literal">
+           <span class="pre">
+            Access
+           </span>
+          </code>
+         </a>
+         instances for that user.  Finally,
+         <code class="docutils literal">
+          <span class="pre">
+           access
+          </span>
+         </code>
+         can be
+provided as a list of user IDs.  Default access will be granted for each user ID.
+(Default access is different for the updater and the other recipients; check
+         <a class="reference internal" href="#perms-tbl">
+          <span class="std std-ref">
+           here
+          </span>
+         </a>
+         for more information.)  If
+         <code class="docutils literal">
+          <span class="pre">
+           access
+          </span>
+         </code>
+         is specified, then the
+updater must explicitly be included if they should have access.
+        </li>
+        <li>
+         <strong>
+          content
+         </strong>
+         (
+         <em>
+          bytes
+         </em>
+         ) – New content to be encrypted.
+        </li>
+        <li>
+         <strong>
+          header
+         </strong>
+         (
+         <em>
+          JSON serializable data
+         </em>
+         ) – A new header to be applied.
+        </li>
+        <li>
+         <strong>
+          type
+         </strong>
+         (
+         <em>
+          string
+         </em>
+         ) – A new string to categorize the container on the Absio API Server Application.
+        </li>
+       </ul>
+      </td>
+     </tr>
+    </tbody>
+   </table>
+  </dd>
+ </dl>
+ <span class="target" id="module-absio.crypto.container">
+ </span>
+ <dl class="class">
+  <dt id="absio.crypto.container.Container">
+   <em class="property">
+    class
+   </em>
+   <code class="descclassname">
+    absio.crypto.container.
+   </code>
+   <code class="descname">
+    Container
+   </code>
+   <span class="sig-paren">
+    (
+   </span>
+   <em>
+    data=None
+   </em>
+   ,
+   <em>
+    content_cls=&lt;class 'absio.crypto.container.RawPayload'&gt;
+   </em>
+   ,
+   <em>
+    **kwargs
+   </em>
+   <span class="sig-paren">
+    )
+   </span>
+   <a class="headerlink" href="#absio.crypto.container.Container" title="Permalink to this definition">
+    ¶
+   </a>
+  </dt>
+  <dd>
+   <p>
+    Creates an Intelligent Data Object (Container).
+   </p>
+   <table class="docutils field-list" frame="void" rules="none">
+    <col class="field-name"/>
+    <col class="field-body"/>
+    <tbody valign="top">
+     <tr class="field-odd field">
+      <th class="field-name">
+       Parameters:
+      </th>
+      <td class="field-body">
+       <ul class="first last simple">
+        <li>
+         <strong>
+          data
+         </strong>
+         (
+         <em>
+          encrypted bytes
+         </em>
+         ) – If
+         <code class="docutils literal">
+          <span class="pre">
+           data
+          </span>
+         </code>
+         is provided, this represents a container in its entirety and is
+therefore considered to be an encrypted container.
+        </li>
+        <li>
+         <strong>
+          content_cls
+         </strong>
+         (
+         <code class="xref py py-class docutils literal">
+          <span class="pre">
+           RawPayload
+          </span>
+         </code>
+         ) – This allows for determing what type of content payload is constructed.
+Some types of containers use a JSON payload, while others use bytes.
+By changing the constructor type, the data can automatically be
+translated into the format you desire.
+        </li>
+        <li>
+         <strong>
+          container_id
+         </strong>
+         (
+         <em>
+          UUID
+         </em>
+         ) – This is an optional kwarg used to construct an unencrypted Container.
+        </li>
+        <li>
+         <strong>
+          header
+         </strong>
+         (
+         <em>
+          JSON serializable unencrypted data
+         </em>
+         ) – An unencrypted payload for the header portion of a container.
+        </li>
+        <li>
+         <strong>
+          content
+         </strong>
+         (
+         <em>
+          Unencrypted data
+         </em>
+         ) – The unencrypted payload for the content portion of a container.
+        </li>
+        <li>
+         <strong>
+          type"
+         </strong>
+         (
+         <em>
+          string
+         </em>
+         ) – Allows for organization of containers on the Absio API Server Application.
+        </li>
+       </ul>
+      </td>
+     </tr>
+    </tbody>
+   </table>
+   <dl class="attribute">
+    <dt id="absio.crypto.container.Container.container_keys">
+     <code class="descname">
+      container_keys
+     </code>
+     <em class="property">
+      = None
+     </em>
+     <a class="headerlink" href="#absio.crypto.container.Container.container_keys" title="Permalink to this definition">
+      ¶
+     </a>
+    </dt>
+    <dd>
+     <p>
+      The
+      <a class="reference internal" href="#absio.crypto.container.ContainerKeys" title="absio.crypto.container.ContainerKeys">
+       <code class="xref py py-class docutils literal">
+        <span class="pre">
+         ContainerKeys
+        </span>
+       </code>
+      </a>
+      that were used to encrypt the container, if encrypted.
+     </p>
+    </dd>
+   </dl>
+   <dl class="attribute">
+    <dt id="absio.crypto.container.Container.content">
+     <code class="descname">
+      content
+     </code>
+     <em class="property">
+      = None
+     </em>
+     <a class="headerlink" href="#absio.crypto.container.Container.content" title="Permalink to this definition">
+      ¶
+     </a>
+    </dt>
+    <dd>
+     <p>
+      The container content
+     </p>
+    </dd>
+   </dl>
+   <dl class="attribute">
+    <dt id="absio.crypto.container.Container.created_at">
+     <code class="descname">
+      created_at
+     </code>
+     <a class="headerlink" href="#absio.crypto.container.Container.created_at" title="Permalink to this definition">
+      ¶
+     </a>
+    </dt>
+    <dd>
+     <p>
+      When the container was created
+     </p>
+    </dd>
+   </dl>
+   <dl class="attribute">
+    <dt id="absio.crypto.container.Container.created_by">
+     <code class="descname">
+      created_by
+     </code>
+     <a class="headerlink" href="#absio.crypto.container.Container.created_by" title="Permalink to this definition">
+      ¶
+     </a>
+    </dt>
+    <dd>
+     <p>
+      Who created the container
+     </p>
+    </dd>
+   </dl>
+   <dl class="attribute">
+    <dt id="absio.crypto.container.Container.data">
+     <code class="descname">
+      data
+     </code>
+     <a class="headerlink" href="#absio.crypto.container.Container.data" title="Permalink to this definition">
+      ¶
+     </a>
+    </dt>
+    <dd>
+     <p>
+      The data of a container.
+     </p>
+    </dd>
+   </dl>
+   <dl class="method">
+    <dt id="absio.crypto.container.Container.decrypt">
+     <code class="descname">
+      decrypt
+     </code>
+     <span class="sig-paren">
+      (
+     </span>
+     <em>
+      container_keys=None
+     </em>
+     <span class="sig-paren">
+      )
+     </span>
+     <a class="headerlink" href="#absio.crypto.container.Container.decrypt" title="Permalink to this definition">
+      ¶
+     </a>
+    </dt>
+    <dd>
+     <p>
+      Decrypts a Container.
+     </p>
+     <table class="docutils field-list" frame="void" rules="none">
+      <col class="field-name"/>
+      <col class="field-body"/>
+      <tbody valign="top">
+       <tr class="field-odd field">
+        <th class="field-name">
+         Parameters:
+        </th>
+        <td class="field-body">
+         <strong>
+          container_keys
+         </strong>
+         (
+         <a class="reference internal" href="#absio.crypto.container.ContainerKeys" title="absio.crypto.container.ContainerKeys">
+          <code class="xref py py-class docutils literal">
+           <span class="pre">
+            ContainerKeys
+           </span>
+          </code>
+         </a>
+         ) – An optional parameter, the container_keys that came from
+decrypting the recipient key bob (RKB).  If not provided, and the
+Container keys were stored as part of the encryption process, those
+stored keys will be used.
+        </td>
+       </tr>
+      </tbody>
+     </table>
+    </dd>
+   </dl>
+   <dl class="method">
+    <dt id="absio.crypto.container.Container.encrypt">
+     <code class="descname">
+      encrypt
+     </code>
+     <span class="sig-paren">
+      (
+     </span>
+     <em>
+      container_keys=None
+     </em>
+     <span class="sig-paren">
+      )
+     </span>
+     <a class="headerlink" href="#absio.crypto.container.Container.encrypt" title="Permalink to this definition">
+      ¶
+     </a>
+    </dt>
+    <dd>
+     <p>
+      Encrypts a Container.
+     </p>
+     <table class="docutils field-list" frame="void" rules="none">
+      <col class="field-name"/>
+      <col class="field-body"/>
+      <tbody valign="top">
+       <tr class="field-odd field">
+        <th class="field-name">
+         Parameters:
+        </th>
+        <td class="field-body">
+         <strong>
+          container_keys
+         </strong>
+         (
+         <a class="reference internal" href="#absio.crypto.container.ContainerKeys" title="absio.crypto.container.ContainerKeys">
+          <code class="xref py py-class docutils literal">
+           <span class="pre">
+            ContainerKeys
+           </span>
+          </code>
+         </a>
+         ) – If keys are provided, they will be used to do the encryption,
+otherwise a new set will be created.
+        </td>
+       </tr>
+       <tr class="field-even field">
+        <th class="field-name">
+         Returns:
+        </th>
+        <td class="field-body">
+         <a class="reference internal" href="#absio.crypto.container.ContainerKeys" title="absio.crypto.container.ContainerKeys">
+          <code class="xref py py-class docutils literal">
+           <span class="pre">
+            ContainerKeys
+           </span>
+          </code>
+         </a>
+        </td>
+       </tr>
+      </tbody>
+     </table>
+    </dd>
+   </dl>
+   <dl class="attribute">
+    <dt id="absio.crypto.container.Container.encrypted">
+     <code class="descname">
+      encrypted
+     </code>
+     <a class="headerlink" href="#absio.crypto.container.Container.encrypted" title="Permalink to this definition">
+      ¶
+     </a>
+    </dt>
+    <dd>
+     <p>
+      A property that returns a boolean indicating whether or not the container is encrypted.
+     </p>
+    </dd>
+   </dl>
+   <dl class="attribute">
+    <dt id="absio.crypto.container.Container.header">
+     <code class="descname">
+      header
+     </code>
+     <em class="property">
+      = None
+     </em>
+     <a class="headerlink" href="#absio.crypto.container.Container.header" title="Permalink to this definition">
+      ¶
+     </a>
+    </dt>
+    <dd>
+     <p>
+      The container header.
+     </p>
+    </dd>
+   </dl>
+   <dl class="attribute">
+    <dt id="absio.crypto.container.Container.id">
+     <code class="descname">
+      id
+     </code>
+     <em class="property">
+      = None
+     </em>
+     <a class="headerlink" href="#absio.crypto.container.Container.id" title="Permalink to this definition">
+      ¶
+     </a>
+    </dt>
+    <dd>
+     <p>
+      The UUID of the container.
+     </p>
+    </dd>
+   </dl>
+   <dl class="attribute">
+    <dt id="absio.crypto.container.Container.modified_at">
+     <code class="descname">
+      modified_at
+     </code>
+     <a class="headerlink" href="#absio.crypto.container.Container.modified_at" title="Permalink to this definition">
+      ¶
+     </a>
+    </dt>
+    <dd>
+     <p>
+      When the container was modified
+     </p>
+    </dd>
+   </dl>
+   <dl class="attribute">
+    <dt id="absio.crypto.container.Container.modified_by">
+     <code class="descname">
+      modified_by
+     </code>
+     <a class="headerlink" href="#absio.crypto.container.Container.modified_by" title="Permalink to this definition">
+      ¶
+     </a>
+    </dt>
+    <dd>
+     <p>
+      Who last modified the container.
+     </p>
+    </dd>
+   </dl>
+   <dl class="attribute">
+    <dt id="absio.crypto.container.Container.type">
+     <code class="descname">
+      type
+     </code>
+     <em class="property">
+      = None
+     </em>
+     <a class="headerlink" href="#absio.crypto.container.Container.type" title="Permalink to this definition">
+      ¶
+     </a>
+    </dt>
+    <dd>
+     <p>
+      The container’s type.
+     </p>
+    </dd>
+   </dl>
+  </dd>
+ </dl>
+ <dl class="class">
+  <dt id="absio.crypto.container.ContainerKeys">
+   <em class="property">
+    class
+   </em>
+   <code class="descclassname">
+    absio.crypto.container.
+   </code>
+   <code class="descname">
+    ContainerKeys
+   </code>
+   <span class="sig-paren">
+    (
+   </span>
+   <em>
+    cipher_index=0
+   </em>
+   ,
+   <em>
+    mac_index=0
+   </em>
+   ,
+   <em>
+    cipher_key=None
+   </em>
+   ,
+   <em>
+    mac_key=None
+   </em>
+   <span class="sig-paren">
+    )
+   </span>
+   <a class="headerlink" href="#absio.crypto.container.ContainerKeys" title="Permalink to this definition">
+    ¶
+   </a>
+  </dt>
+  <dd>
+   <p>
+    Unique keys to perform cyrptographic operations on a Container.
+   </p>
+   <dl class="attribute">
+    <dt id="absio.crypto.container.ContainerKeys.cipher_index">
+     <code class="descname">
+      cipher_index
+     </code>
+     <a class="headerlink" href="#absio.crypto.container.ContainerKeys.cipher_index" title="Permalink to this definition">
+      ¶
+     </a>
+    </dt>
+    <dd>
+    </dd>
+   </dl>
+   <dl class="attribute">
+    <dt id="absio.crypto.container.ContainerKeys.cipher_key">
+     <code class="descname">
+      cipher_key
+     </code>
+     <a class="headerlink" href="#absio.crypto.container.ContainerKeys.cipher_key" title="Permalink to this definition">
+      ¶
+     </a>
+    </dt>
+    <dd>
+    </dd>
+   </dl>
+   <dl class="attribute">
+    <dt id="absio.crypto.container.ContainerKeys.mac_index">
+     <code class="descname">
+      mac_index
+     </code>
+     <a class="headerlink" href="#absio.crypto.container.ContainerKeys.mac_index" title="Permalink to this definition">
+      ¶
+     </a>
+    </dt>
+    <dd>
+    </dd>
+   </dl>
+   <dl class="attribute">
+    <dt id="absio.crypto.container.ContainerKeys.mac_key">
+     <code class="descname">
+      mac_key
+     </code>
+     <a class="headerlink" href="#absio.crypto.container.ContainerKeys.mac_key" title="Permalink to this definition">
+      ¶
+     </a>
+    </dt>
+    <dd>
+    </dd>
+   </dl>
+   <dl class="method">
+    <dt id="absio.crypto.container.ContainerKeys.to_bytes">
+     <code class="descname">
+      to_bytes
+     </code>
+     <span class="sig-paren">
+      (
+     </span>
+     <span class="sig-paren">
+      )
+     </span>
+     <a class="headerlink" href="#absio.crypto.container.ContainerKeys.to_bytes" title="Permalink to this definition">
+      ¶
+     </a>
+    </dt>
+    <dd>
+    </dd>
+   </dl>
+  </dd>
+ </dl>
+</div>

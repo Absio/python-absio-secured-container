@@ -6,7 +6,7 @@ User's Guide
  reading the :ref:`tech` overview.  Otherwise, jump right into the :ref:`quickstart`.
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
    technology
    quickstart

@@ -1,0 +1,531 @@
+<div class="section" id="module-absio">
+ <p>
+  Python Absio Library &lt;
+  <a class="reference external" href="http://absio.readthedocs.io/">
+   http://absio.readthedocs.io/
+  </a>
+  &gt;
+ </p>
+ <dl class="function">
+  <dt id="absio.initialize">
+   <code class="descclassname">
+    absio.
+   </code>
+   <code class="descname">
+    initialize
+   </code>
+   <span class="sig-paren">
+    (
+   </span>
+   <em>
+    api_key
+   </em>
+   ,
+   <em>
+    **kwargs
+   </em>
+   <span class="sig-paren">
+    )
+   </span>
+   <a class="headerlink" href="#absio.initialize" title="Permalink to this definition">
+    ¶
+   </a>
+  </dt>
+  <dd>
+   <p>
+    This method must be called first to initialize the module.
+   </p>
+   <p>
+    See the section about
+    <a class="reference internal" href="quickstart.html#get-api-key">
+     <span class="std std-ref">
+      Obtaining an API Key
+     </span>
+    </a>
+    for more information
+about the api_key argument.
+   </p>
+   <table class="docutils field-list" frame="void" rules="none">
+    <col class="field-name"/>
+    <col class="field-body"/>
+    <tbody valign="top">
+     <tr class="field-odd field">
+      <th class="field-name">
+       Parameters:
+      </th>
+      <td class="field-body">
+       <ul class="first last simple">
+        <li>
+         <strong>
+          api_key
+         </strong>
+         (
+         <em>
+          A UUID
+         </em>
+         <em>
+          or
+         </em>
+         <em>
+          string.
+         </em>
+         ) – The API key that you have received from Absio.
+        </li>
+        <li>
+         <strong>
+          app_name
+         </strong>
+         (
+         <em>
+          string
+         </em>
+         ) – Name used by the Absio API Server Application to identify different
+applications.  Default:
+         <code class="docutils literal">
+          <span class="pre">
+           None
+          </span>
+         </code>
+        </li>
+        <li>
+         <strong>
+          server_url
+         </strong>
+         (
+         <em>
+          string
+         </em>
+         ) – The URL of the Absio API Server Application that you intend to use.  The
+         <code class="docutils literal">
+          <span class="pre">
+           api_key
+          </span>
+         </code>
+         that you have been issued must have come from that server instance.  Default
+is
+         <code class="docutils literal">
+          <span class="pre">
+           https://sandbox.absio.com
+          </span>
+         </code>
+         .
+        </li>
+        <li>
+         <strong>
+          root_dir
+         </strong>
+         (
+         <em>
+          string
+         </em>
+         ) – If using the OFS provider, this will be the root path of the OFS.  By
+default, this will be
+         <code class="docutils literal">
+          <span class="pre">
+           '.'
+          </span>
+         </code>
+         or the current working directory.
+        </li>
+       </ul>
+      </td>
+     </tr>
+    </tbody>
+   </table>
+  </dd>
+ </dl>
+ <dl class="function">
+  <dt id="absio.login">
+   <code class="descclassname">
+    absio.
+   </code>
+   <code class="descname">
+    login
+   </code>
+   <span class="sig-paren">
+    (
+   </span>
+   <em>
+    user_id
+   </em>
+   ,
+   <em>
+    password=None
+   </em>
+   ,
+   <em>
+    passphrase=None
+   </em>
+   <span class="sig-paren">
+    )
+   </span>
+   <a class="headerlink" href="#absio.login" title="Permalink to this definition">
+    ¶
+   </a>
+  </dt>
+  <dd>
+   <p>
+    Logs in a User.
+   </p>
+   <table class="docutils field-list" frame="void" rules="none">
+    <col class="field-name"/>
+    <col class="field-body"/>
+    <tbody valign="top">
+     <tr class="field-odd field">
+      <th class="field-name">
+       Parameters:
+      </th>
+      <td class="field-body">
+       <ul class="first simple">
+        <li>
+         <strong>
+          user_id
+         </strong>
+         (
+         <em>
+          A UUID
+         </em>
+         <em>
+          or
+         </em>
+         <em>
+          a string.
+         </em>
+         ) – The identifier of the user to login with.
+        </li>
+        <li>
+         <strong>
+          password
+         </strong>
+         (
+         <em>
+          string
+         </em>
+         ) – The user’s password, used to decrypt their key file.  If not provided, then
+the passphrase must be.  The passphrase will be used to grab the file from the provider
+and recover the password, allowing for decrypting the key file.
+        </li>
+        <li>
+         <strong>
+          passphrase
+         </strong>
+         (
+         <em>
+          string
+         </em>
+         ) – If the user’s key file is not local but is stored on the Absio API Server
+Application, the passphrase must be provided so that it may be retrieved.
+        </li>
+       </ul>
+      </td>
+     </tr>
+     <tr class="field-even field">
+      <th class="field-name">
+       Returns:
+      </th>
+      <td class="field-body">
+       <p class="first">
+        The logged in
+        <a class="reference internal" href="#absio.user.User" title="absio.user.User">
+         <code class="xref py py-class docutils literal">
+          <span class="pre">
+           User
+          </span>
+         </code>
+        </a>
+        .
+       </p>
+      </td>
+     </tr>
+     <tr class="field-odd field">
+      <th class="field-name">
+       Return type:
+      </th>
+      <td class="field-body">
+       <p class="first last">
+        <a class="reference internal" href="#absio.user.User" title="absio.user.User">
+         <code class="xref py py-class docutils literal">
+          <span class="pre">
+           User
+          </span>
+         </code>
+        </a>
+       </p>
+      </td>
+     </tr>
+    </tbody>
+   </table>
+  </dd>
+ </dl>
+ <dl class="function">
+  <dt id="absio.logout">
+   <code class="descclassname">
+    absio.
+   </code>
+   <code class="descname">
+    logout
+   </code>
+   <span class="sig-paren">
+    (
+   </span>
+   <em>
+    *args
+   </em>
+   ,
+   <em>
+    **kwargs
+   </em>
+   <span class="sig-paren">
+    )
+   </span>
+   <a class="headerlink" href="#absio.logout" title="Permalink to this definition">
+    ¶
+   </a>
+  </dt>
+  <dd>
+   <p>
+    Clears any user data cached in memory.
+   </p>
+   <p>
+    The user will no longer be authenticated with the Absio API Server Application.
+   </p>
+  </dd>
+ </dl>
+ <dl class="function">
+  <dt id="absio.is_password_valid">
+   <code class="descclassname">
+    absio.
+   </code>
+   <code class="descname">
+    is_password_valid
+   </code>
+   <span class="sig-paren">
+    (
+   </span>
+   <em>
+    password
+   </em>
+   <span class="sig-paren">
+    )
+   </span>
+   <a class="headerlink" href="#absio.is_password_valid" title="Permalink to this definition">
+    ¶
+   </a>
+  </dt>
+  <dd>
+   <p>
+    Validates that a password meets the complexity requirements.
+   </p>
+   <p>
+    By default, the password must be at least 8 characters long and include at least 1
+character from 3 of the following types of characters:
+   </p>
+   <blockquote>
+    <div>
+     <ul class="simple">
+      <li>
+       Lower case
+      </li>
+      <li>
+       Upper case
+      </li>
+      <li>
+       Number
+      </li>
+      <li>
+       Special
+      </li>
+     </ul>
+    </div>
+   </blockquote>
+   <p>
+    You may override this validator globally by replacing this function with your own, or you may
+pass your validator function as an argument to the functions that allow for credential updates.
+   </p>
+   <table class="docutils field-list" frame="void" rules="none">
+    <col class="field-name"/>
+    <col class="field-body"/>
+    <tbody valign="top">
+     <tr class="field-odd field">
+      <th class="field-name">
+       Parameters:
+      </th>
+      <td class="field-body">
+       <strong>
+        password
+       </strong>
+       (
+       <em>
+        string
+       </em>
+       ) – The password to be validated.
+      </td>
+     </tr>
+     <tr class="field-even field">
+      <th class="field-name">
+       Returns:
+      </th>
+      <td class="field-body">
+       If the password is valid.
+      </td>
+     </tr>
+     <tr class="field-odd field">
+      <th class="field-name">
+       Return type:
+      </th>
+      <td class="field-body">
+       bool
+      </td>
+     </tr>
+    </tbody>
+   </table>
+  </dd>
+ </dl>
+ <dl class="function">
+  <dt id="absio.is_passphrase_valid">
+   <code class="descclassname">
+    absio.
+   </code>
+   <code class="descname">
+    is_passphrase_valid
+   </code>
+   <span class="sig-paren">
+    (
+   </span>
+   <em>
+    passphrase
+   </em>
+   <span class="sig-paren">
+    )
+   </span>
+   <a class="headerlink" href="#absio.is_passphrase_valid" title="Permalink to this definition">
+    ¶
+   </a>
+  </dt>
+  <dd>
+   <p>
+    Validates that a passphrase meets the complexity requirements.
+   </p>
+   <p>
+    By default, the passphrase must be at least 8 characters long and include at least 1
+character from 3 of the following types of characters:
+   </p>
+   <blockquote>
+    <div>
+     <ul class="simple">
+      <li>
+       Lower case
+      </li>
+      <li>
+       Upper case
+      </li>
+      <li>
+       Number
+      </li>
+      <li>
+       Special
+      </li>
+     </ul>
+    </div>
+   </blockquote>
+   <p>
+    You may override this validator globally by replacing this function with your own, or you may
+pass your validator function as an argument to the functions that allow for credential updates.
+   </p>
+   <table class="docutils field-list" frame="void" rules="none">
+    <col class="field-name"/>
+    <col class="field-body"/>
+    <tbody valign="top">
+     <tr class="field-odd field">
+      <th class="field-name">
+       Parameters:
+      </th>
+      <td class="field-body">
+       <strong>
+        passphrase
+       </strong>
+       (
+       <em>
+        string
+       </em>
+       ) – The passphrase to be validated.
+      </td>
+     </tr>
+     <tr class="field-even field">
+      <th class="field-name">
+       Returns:
+      </th>
+      <td class="field-body">
+       If the passphrase is valid.
+      </td>
+     </tr>
+     <tr class="field-odd field">
+      <th class="field-name">
+       Return type:
+      </th>
+      <td class="field-body">
+       bool
+      </td>
+     </tr>
+    </tbody>
+   </table>
+  </dd>
+ </dl>
+ <dl class="function">
+  <dt id="absio.is_reminder_valid">
+   <code class="descclassname">
+    absio.
+   </code>
+   <code class="descname">
+    is_reminder_valid
+   </code>
+   <span class="sig-paren">
+    (
+   </span>
+   <em>
+    reminder
+   </em>
+   <span class="sig-paren">
+    )
+   </span>
+   <a class="headerlink" href="#absio.is_reminder_valid" title="Permalink to this definition">
+    ¶
+   </a>
+  </dt>
+  <dd>
+   <p>
+    Validates that the reminder meets the complexity requirements.
+   </p>
+   <p>
+    Absio does not enforce any complexity upon the reminder, therefore this implementation just
+returns True.  It can however be overridden to enforce your requirements.
+   </p>
+   <p>
+    You may override this validator globally by replacing this function with your own, or you may
+pass your validator function as an argument to the functions that allow for credential updates.
+   </p>
+   <table class="docutils field-list" frame="void" rules="none">
+    <col class="field-name"/>
+    <col class="field-body"/>
+    <tbody valign="top">
+     <tr class="field-odd field">
+      <th class="field-name">
+       Returns:
+      </th>
+      <td class="field-body">
+       If the reminder is valid.
+      </td>
+     </tr>
+     <tr class="field-even field">
+      <th class="field-name">
+       Return type:
+      </th>
+      <td class="field-body">
+       bool
+      </td>
+     </tr>
+    </tbody>
+   </table>
+  </dd>
+ </dl>
+</div>
