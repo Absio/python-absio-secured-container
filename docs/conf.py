@@ -33,7 +33,6 @@ sys.path.insert(0, os.path.abspath('../src'))
 # ones.
 extensions = ['sphinx.ext.autodoc',
     'sphinx.ext.githubpages',
-    'sphinxcontrib.restbuilder',
 ]
 
 autoclass_content = 'both'
