@@ -1,0 +1,276 @@
+<div class="section" id="module-absio.providers.server">
+
+<p>All content is stored on the Absio API Server Application.</p>
+<dl class="data">
+<dt id="absio.providers.server.client">
+<code class="descclassname">absio.providers.server.</code><code class="descname">client</code><em class="property"> = &lt;module 'absio.providers.server.client' from '/home/scott/code/python-absio/src/absio/providers/server/client.py'&gt;</em><a class="headerlink" href="#absio.providers.server.client" title="Permalink to this definition">¶</a></dt>
+<dd><p>A REST client that knows how to communicate with the Absio API Server Application.
+Behaves very similarly to the requests module.</p>
+</dd></dl>
+<dl class="function">
+<dt id="absio.providers.server.login">
+<code class="descclassname">absio.providers.server.</code><code class="descname">login</code><span class="sig-paren">(</span><em>user_id=None</em>, <em>password=None</em>, <em>passphrase=None</em>, <em>user=None</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.providers.server.login" title="Permalink to this definition">¶</a></dt>
+<dd><p>Logs a user into the server provider’s session.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name"/>
+<col class="field-body"/>
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>user_id</strong> (<em>UUID</em>) – An ID value of the user to login as.</li>
+<li><strong>password</strong> (<em>str</em>) – The user’s password.  If not provided, passphrase must be.  Then the
+pasword will be rescued from the Key File.</li>
+<li><strong>passphase</strong> – The user’s backup passphrase used to retrieve the Key File (and optionally
+rescue the password.)</li>
+<li><strong>user</strong> (<a class="reference internal" href="#absio.user.User" title="absio.user.User"><code class="xref py py-class docutils literal"><span class="pre">User</span></code></a>) – An existing user that may have been logged in via another provider.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+<dl class="function">
+<dt id="absio.providers.server.logout">
+<code class="descclassname">absio.providers.server.</code><code class="descname">logout</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.providers.server.logout" title="Permalink to this definition">¶</a></dt>
+<dd><p>Logs the current user out of the server provider’s session.</p>
+</dd></dl>
+<dl class="function">
+<dt id="absio.providers.server.initialize">
+<code class="descclassname">absio.providers.server.</code><code class="descname">initialize</code><span class="sig-paren">(</span><em>api_key</em>, <em>server_url='https://sandbox.absio.com'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.providers.server.initialize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Begins setting up the server provider.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name"/>
+<col class="field-body"/>
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>api_key</strong> (<em>UUID</em>) – The API Key used to identify and authenticate with the Absio API Server Application.</li>
+<li><strong>server_url</strong> (<em>str</em>) – The base URL of your desired server instance.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+<div class="section" id="id3">
+<h4>Container<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h4>
+<span class="target" id="module-absio.providers.server.container"></span><dl class="function">
+<dt id="absio.providers.server.container.delete">
+<code class="descclassname">absio.providers.server.container.</code><code class="descname">delete</code><span class="sig-paren">(</span><em>container_id</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.providers.server.container.delete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes a user’s access to a container on the server.</p>
+<p>This will not remove a container in its entirety.  A container may be shared with
+other recipients and will not be removed from the server until no accesses exist.
+If you would like to entirely remove a container (and it is shared with other users),
+you must first update the container and remove their access.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name"/>
+<col class="field-body"/>
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>container_id</strong> (<em>UUID</em>) – The ID of the container to delete.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+<dl class="function">
+<dt id="absio.providers.server.container.get">
+<code class="descclassname">absio.providers.server.container.</code><code class="descname">get</code><span class="sig-paren">(</span><em>container_id</em>, <em>portion='all'</em>, <em>decrypt=True</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.providers.server.container.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves a container from the server.</p>
+<p>This method will decrypt the container, if possible.  Reasons for failing to decrypt the
+container include:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Insufficient permissions.</li>
+<li>No data was stored on the Absio API Server Application</li>
+</ol>
+</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name"/>
+<col class="field-body"/>
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>container_id</strong> (<em>UUID</em>) – The ID of the container to be fetched.</li>
+<li><strong>portion</strong> (<em>str</em>) – You may choose which section(s) of a container to retrieve.  This may be one
+of <code class="docutils literal"><span class="pre">content</span></code>, <code class="docutils literal"><span class="pre">header</span></code>, <code class="docutils literal"><span class="pre">metadata</span></code>, or <code class="docutils literal"><span class="pre">all</span></code>.  If either <code class="docutils literal"><span class="pre">content</span></code> or <code class="docutils literal"><span class="pre">header</span></code>
+is chosen, then the <code class="docutils literal"><span class="pre">metadata</span></code> (access information, date / creation information) is
+also retrieved.</li>
+<li><strong>decrypt</strong> (<em>bool</em>) – If <code class="docutils literal"><span class="pre">True</span></code>, the container will be returned decrypted, if possible.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Your container, decrypted if possible.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#absio.crypto.container.Container" title="absio.crypto.container.Container"><code class="xref py py-class docutils literal"><span class="pre">Container</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+<dl class="function">
+<dt id="absio.providers.server.container.update_or_create">
+<code class="descclassname">absio.providers.server.container.</code><code class="descname">update_or_create</code><span class="sig-paren">(</span><em>container</em>, <em>requires_upload=True</em>, <em>access_changed=False</em>, <em>type_changed=False</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.providers.server.container.update_or_create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Uploads a new version of the container to the server.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name"/>
+<col class="field-body"/>
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>container</strong> (<a class="reference internal" href="#absio.crypto.container.Container" title="absio.crypto.container.Container"><code class="xref py py-class docutils literal"><span class="pre">Container</span></code></a>) – The encrypted container to be uploaded to the server.</li>
+<li><strong>requires_upload</strong> (<em>bool</em>) – Whether or not the encrypted data has changed, warranting a new upload.</li>
+<li><strong>access_changed</strong> (<em>bool</em>) – Whether or not the container’s access has changed.  This is ignored if
+<cite>requires_upload</cite> is <cite>True</cite>, as the access will be set regardless during the upload
+process.</li>
+<li><strong>type_changed</strong> (<em>bool</em>) – Whether or not the type of a container has changed.  This is ignored if
+<cite>requires_upload</cite> is <cite>True</cite>, as the type will be set regardless during the upload process.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The container in its updated state.  This will contain refreshed timestamps
+and may have a different view of the access, depending upon the permissions that were
+applied.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#absio.crypto.container.Container" title="absio.crypto.container.Container"><code class="xref py py-class docutils literal"><span class="pre">Container</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+</div>
+<div class="section" id="id4">
+<h4>Events<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h4>
+<span class="target" id="module-absio.providers.server.events"></span><dl class="function">
+<dt id="absio.providers.server.events.get">
+<code class="descclassname">absio.providers.server.events.</code><code class="descname">get</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.providers.server.events.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves events from the Absio API Server Application.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name"/>
+<col class="field-body"/>
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>type</strong> (string: One of <code class="docutils literal"><span class="pre">container</span></code> or <code class="docutils literal"><span class="pre">key_file</span></code>.) – What type of event to fetch.</li>
+<li><strong>container_id</strong> (<em>UUID</em>) – If interested in events for a particular container, pass in the ID.</li>
+<li><strong>container_type</strong> (<em>string</em>) – Filter by the type of container.</li>
+<li><strong>action</strong> (One of <code class="docutils literal"><span class="pre">accessed</span></code>, <code class="docutils literal"><span class="pre">added</span></code>, <code class="docutils literal"><span class="pre">deleted</span></code>, or <code class="docutils literal"><span class="pre">updated</span></code>.) – Filter by the event’s action.</li>
+<li><strong>starting_event_id</strong> (<em>int</em>) – Only retrieve events &gt;= to this ID value.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">All matching events.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><cite>list</cite> of <a class="reference internal" href="#absio.event.Event" title="absio.event.Event"><code class="xref py py-class docutils literal"><span class="pre">Events</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+</div>
+<div class="section" id="id5">
+<h4>Key File<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h4>
+<span class="target" id="module-absio.providers.server.key_file"></span><dl class="function">
+<dt id="absio.providers.server.key_file.get">
+<code class="descclassname">absio.providers.server.key_file.</code><code class="descname">get</code><span class="sig-paren">(</span><em>user_id</em>, <em>passphrase</em>, <em>password=None</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.providers.server.key_file.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves a decrypted key file from the server.</p>
+<p>If the password is provided, use it to decrypt the file, otherwise use the rescued password.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name"/>
+<col class="field-body"/>
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>passphrase</strong> (<em>str</em>) – The passphrase associated with the key file.  This is used to retrieve the
+file and may be used to decrypt it as well, depending upon whether or not the <cite>password</cite>
+argument is provided.</li>
+<li><strong>password</strong> (<em>str</em>) – Will be used to decrypt the key file.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+<dl class="function">
+<dt id="absio.providers.server.key_file.update_or_create">
+<code class="descclassname">absio.providers.server.key_file.</code><code class="descname">update_or_create</code><span class="sig-paren">(</span><em>key_file</em>, <em>passphrase=None</em>, <em>reminder=None</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.providers.server.key_file.update_or_create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Uploads a new version of the keys file to the server.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name"/>
+<col class="field-body"/>
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>key_file</strong> (<code class="xref py py-class docutils literal"><span class="pre">KeyFile</span></code>) – The file to be stored on the server.</li>
+<li><strong>passphrase</strong> – A passphrase that can be used to retrieve the file back down from the server
+in an un-authenticated session.  This will be hashed before it is sent to the server.</li>
+<li><strong>reminder</strong> (<em>str</em>) – If the passphrase is a human generated value, this reminder may help them
+remember what the passphrase is.  Think of a security question / answer pairing.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Str passphrase:</th><td class="field-body"><p class="first last">str</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+</div>
+<div class="section" id="id6">
+<h4>Keys<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h4>
+<span class="target" id="module-absio.providers.server.keys"></span><dl class="function">
+<dt id="absio.providers.server.keys.get">
+<code class="descclassname">absio.providers.server.keys.</code><code class="descname">get</code><span class="sig-paren">(</span><em>user_id</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.providers.server.keys.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves the public keys for a user from the Absio API Server Application.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name"/>
+<col class="field-body"/>
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>user_id</strong> (<em>UUID</em>) – The ID of the user for whom the keys should be fetched.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A key ring containing only the public keys.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">KeyRing</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+</div>
+<div class="section" id="id7">
+<h4>User<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h4>
+<span class="target" id="module-absio.providers.server.user"></span><dl class="function">
+<dt id="absio.providers.server.user.change_credentials">
+<code class="descclassname">absio.providers.server.user.</code><code class="descname">change_credentials</code><span class="sig-paren">(</span><em>password</em>, <em>passphrase</em>, <em>reminder=None</em>, <em>password_validator=&lt;function is_password_valid&gt;</em>, <em>passphrase_validator=&lt;function is_passphrase_valid&gt;</em>, <em>reminder_validator=&lt;function is_reminder_valid&gt;</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.providers.server.user.change_credentials" title="Permalink to this definition">¶</a></dt>
+<dd><p>Changes a user’s password and passphrase.</p>
+</dd></dl>
+<dl class="function">
+<dt id="absio.providers.server.user.create">
+<code class="descclassname">absio.providers.server.user.</code><code class="descname">create</code><span class="sig-paren">(</span><em>signing_key</em>, <em>derivation_key</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.providers.server.user.create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new user on the Absio API Server Application.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name"/>
+<col class="field-body"/>
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>signing_key</strong> (<code class="xref py py-class docutils literal"><span class="pre">AuthKey</span></code>) – The key the user will use for authentication / signature verification operations.</li>
+<li><strong>derivation_key</strong> (<code class="xref py py-class docutils literal"><span class="pre">DerivationKey</span></code>) – The key the user will use for unique secure container encryption key
+creation and key exchange algorithms.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The user, as it was created on the server.  Will populate their <cite>id</cite> value.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#absio.user.User" title="absio.user.User"><code class="xref py py-class docutils literal"><span class="pre">User</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+<dl class="function">
+<dt id="absio.providers.server.user.delete">
+<code class="descclassname">absio.providers.server.user.</code><code class="descname">delete</code><span class="sig-paren">(</span><em>user</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.providers.server.user.delete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Permanently removes the user from the Absio API Server Application.</p>
+<p>This cannot be undone.  Use with caution.</p>
+</dd></dl>
+<dl class="function">
+<dt id="absio.providers.server.user.get_backup_reminder">
+<code class="descclassname">absio.providers.server.user.</code><code class="descname">get_backup_reminder</code><span class="sig-paren">(</span><em>user_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.providers.server.user.get_backup_reminder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves the user’s reminder associated with their key file.</p>
+</dd></dl>
+</div>
+</div>

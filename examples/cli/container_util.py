@@ -225,12 +225,12 @@ def _set_advanced_container_access(existing):
         elif c == '2':
             user_id = None
             while user_id not in access:
-                user_id = str(click.prompt('Enter User ID', type=uuid.UUID))
+                user_id = click.prompt('Enter User ID', type=uuid.UUID)
             access[user_id] = _set_individual_access(user_id, access[user_id])
         elif c == '3':
             user_id = None
             while user_id not in access:
-                user_id = str(click.prompt('Enter User ID', type=uuid.UUID))
+                user_id = click.prompt('Enter User ID', type=uuid.UUID)
             access.pop(user_id)
         elif c == 'd':
             break
@@ -441,7 +441,7 @@ def main(api_key, url, user_id, password, backup_phrase):
     # Try logging in to the OFS before falling back to the server.
     try:
         absio.login(user_id, password)
-    except ValueError:
+    except:
         absio.login(user_id, password, backup_phrase)
 
     while True:

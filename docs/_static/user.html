@@ -12,8 +12,8 @@
 </dd></dl>
 <dl class="attribute">
 <dt id="absio.user.User.key_file">
-<code class="descname">key_file</code><em class="property"> = None</em><a class="headerlink" href="#absio.user.User.key_file" title="Permalink to this definition">¶</a></dt>
-<dd><p>The user’s <code class="xref py py-class docutils literal"><span class="pre">Key</span> <span class="pre">File</span></code>.</p>
+<code class="descname">key_file</code><a class="headerlink" href="#absio.user.User.key_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>The user’s decrypted <code class="xref py py-class docutils literal"><span class="pre">Key</span> <span class="pre">File</span></code>.</p>
 </dd></dl>
 <dl class="attribute">
 <dt id="absio.user.User.keys">
@@ -24,9 +24,9 @@ will only have the public keys.</p>
 </dd></dl>
 </dd></dl>
 <dl class="function">
-<dt id="absio.user.change_backup_credentials">
-<code class="descclassname">absio.user.</code><code class="descname">change_backup_credentials</code><span class="sig-paren">(</span><em>user_id</em>, <em>current_passphrase</em>, <em>new_reminder</em>, <em>new_passphrase</em>, <em>current_password=None</em>, <em>reminder_validator=&lt;function is_reminder_valid&gt;</em>, <em>passphrase_validator=&lt;function is_passphrase_valid&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.user.change_backup_credentials" title="Permalink to this definition">¶</a></dt>
-<dd><p>Changes the backup credentials (reminder and passphrase) for the account.</p>
+<dt id="absio.user.change_credentials">
+<code class="descclassname">absio.user.</code><code class="descname">change_credentials</code><span class="sig-paren">(</span><em>password</em>, <em>passphrase</em>, <em>reminder=None</em>, <em>password_validator=&lt;function is_password_valid&gt;</em>, <em>reminder_validator=&lt;function is_reminder_valid&gt;</em>, <em>passphrase_validator=&lt;function is_passphrase_valid&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.user.change_credentials" title="Permalink to this definition">¶</a></dt>
+<dd><p>Changes the user’s credentials (password and passphrase) for the account.</p>
 <p>Use a secure value for the passphrase as it can be used to reset the user’s password.  This
 operation causes the key file to be re-encrypted.  The new copy of the key file will be pushed
 to the Absio API Server Application.  If local storage is being utilized, it will also be
@@ -36,16 +36,15 @@ saved in the OFS.</p>
 <col class="field-body"/>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>user_id</strong> (<em>UUID</em>) – The identifier of the user.</li>
-<li><strong>current_passphrase</strong> (<em>string</em>) – The current passphrase set up during creation of the account.</li>
-<li><strong>current_password</strong> (<em>string</em>) – If provided, the password will be validated to make sure the caller
-is in possession of both sets of credentials (passphrase and password), not just the
-passphrase.</li>
-<li><strong>new_reminder</strong> (<em>string</em>) – The new backup reminder for the user’s passphrase.  The reminder is
-publicly available in plain text.  Do not include sensitive information
-or wording that allows the passphrase to be easily compromised.</li>
-<li><strong>new_passphrase</strong> (<em>string</em>) – The new backup passphrase for the user.  Use a secure value for this.
-This can be used to reset the password for the user’s account.</li>
+<li><strong>password</strong> (<em>string</em>) – The new password to be used.</li>
+<li><strong>passphrase</strong> (<em>string</em>) – The new passphrase to be used.</li>
+<li><strong>reminder</strong> – An optional reminder that can be used to help recall the passphrase. This is
+publicly available in plain text.  Do not include sensitive information or wording that
+allows the passphrase to be easily compromised.</li>
+<li><strong>password_validator</strong> – An optional validator to enforce password complexity requirements.
+If provided, it should take a single argument (the password) and
+return a boolean indicating whether or not the password passes
+validation.</li>
 <li><strong>reminder_validator</strong> (<em>callable</em>) – An optional validator to enforce passphrase complexity requirements.
 If provided, it should take a single argument (the passphrase) and
 return a boolean indicating whether or not the passphrase passes
@@ -55,42 +54,6 @@ requirements.  If provided, it should take a single argument (the
 passphrase) and return a boolean indicating whether or not the
 passphrase passes validation.</li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-<dl class="function">
-<dt id="absio.user.change_password">
-<code class="descclassname">absio.user.</code><code class="descname">change_password</code><span class="sig-paren">(</span><em>user_id</em>, <em>passphrase</em>, <em>new_password</em>, <em>current_password=None</em>, <em>password_validator=&lt;function is_password_valid&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.user.change_password" title="Permalink to this definition">¶</a></dt>
-<dd><p>Changes a user’s password to the new value.</p>
-<p>If a user doesn’t remember their password but can recall their recovery passphrase, their
-password can be updated via this function.  You may call <a class="reference internal" href="#absio.user.get_backup_reminder" title="absio.user.get_backup_reminder"><code class="xref py py-func docutils literal"><span class="pre">get_backup_reminder()</span></code></a> to get the
-reminder for the passphrase.  This operation causes the Key File to be re-encrypted and stored
-on the Absio API server Application.  If local storage is being utilized, it will also be
-saved in the OFS.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name"/>
-<col class="field-body"/>
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>user_id</strong> (<em>UUID</em>) – The identifier of the user.</li>
-<li><strong>passphrase</strong> (<em>string</em>) – The passphrase that was setup during account creation.</li>
-<li><strong>new_password</strong> (<em>string</em>) – The new password for the user.  It cannot be the same as the
-existing password.</li>
-<li><strong>current_password</strong> (<em>string</em>) – If provided, the password will be validated to make sure the caller
-is in possession of both sets of credentials (passphrase and password), not just the
-passphrase.</li>
-<li><strong>password_validator</strong> (<em>callable</em>) – An optional validator to enforce password complexity requirements.
-If provided, it should take a single argument (the password) and return a boolean
-indicating whether or not the password passes validation.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The newly authenticated user and their new encrypted key file.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><code class="docutils literal"><span class="pre">tuple</span></code> of (<a class="reference internal" href="#absio.user.User" title="absio.user.User"><code class="xref py py-class docutils literal"><span class="pre">User</span></code></a>, <code class="xref py py-class docutils literal"><span class="pre">KeyFile</span></code>)</p>
 </td>
 </tr>
 </tbody>
@@ -137,16 +100,8 @@ a boolean indicating whether or not the passphrase passes validation.</li>
 </dd></dl>
 <dl class="function">
 <dt id="absio.user.delete">
-<code class="descclassname">absio.user.</code><code class="descname">delete</code><span class="sig-paren">(</span><em>user</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.user.delete" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">absio.user.</code><code class="descname">delete</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#absio.user.delete" title="Permalink to this definition">¶</a></dt>
 <dd><p>Removes a user permanently.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name"/>
-<col class="field-body"/>
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>user</strong> (<a class="reference internal" href="#absio.user.User" title="absio.user.User"><code class="xref py py-class docutils literal"><span class="pre">User</span></code></a>) – The user to be removed.</td>
-</tr>
-</tbody>
-</table>
 <div class="admonition danger">
 <p class="first admonition-title">Danger</p>
 <p class="last">This function cannot be undone.  All data associated with the user will be permanently
@@ -164,7 +119,7 @@ deleted and cannot be recovered.  Use with caution.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>user_id</strong> (<em>UUID</em>) – The identifier of the user for whom the reminder should be retrieved.  If no
 value is provided, the ID of the currently authenticated user will be used.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The publicaly accessible reminder for the user’s backup passphrase.</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The publicly accessible reminder for the user’s backup passphrase.</td>
 </tr>
 </tbody>
 </table>

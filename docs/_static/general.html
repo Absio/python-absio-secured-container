@@ -12,13 +12,13 @@ about the api_key argument.</p>
 <col class="field-body"/>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>api_key</strong> (<em>A UUID</em><em> or </em><em>string.</em>) – The API key that you have received from Absio.</li>
-<li><strong>app_name</strong> (<em>string</em>) – Name used by the Absio API Server Application to identify different
+<li><strong>api_key</strong> (<em>UUID</em>) – The API key that you have received from Absio.</li>
+<li><strong>app_name</strong> (<em>str</em>) – Name used by the Absio API Server Application to identify different
 applications.  Default: <code class="docutils literal"><span class="pre">None</span></code></li>
-<li><strong>server_url</strong> (<em>string</em>) – The URL of the Absio API Server Application that you intend to use.  The
+<li><strong>server_url</strong> (<em>str</em>) – The URL of the Absio API Server Application that you intend to use.  The
 <code class="docutils literal"><span class="pre">api_key</span></code> that you have been issued must have come from that server instance.  Default
 is <code class="docutils literal"><span class="pre">https://sandbox.absio.com</span></code>.</li>
-<li><strong>root_dir</strong> (<em>string</em>) – If using the OFS provider, this will be the root path of the OFS.  By
+<li><strong>root_dir</strong> (<em>str</em>) – If using the OFS provider, this will be the root path of the OFS.  By
 default, this will be <code class="docutils literal"><span class="pre">'.'</span></code> or the current working directory.</li>
 </ul>
 </td>
@@ -35,11 +35,11 @@ default, this will be <code class="docutils literal"><span class="pre">'.'</span
 <col class="field-body"/>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>user_id</strong> (<em>A UUID</em><em> or </em><em>a string.</em>) – The identifier of the user to login with.</li>
-<li><strong>password</strong> (<em>string</em>) – The user’s password, used to decrypt their key file.  If not provided, then
+<li><strong>user_id</strong> (<em>UUID</em>) – The identifier of the user to login with.</li>
+<li><strong>password</strong> (<em>str</em>) – The user’s password, used to decrypt their key file.  If not provided, then
 the passphrase must be.  The passphrase will be used to grab the file from the provider
 and recover the password, allowing for decrypting the key file.</li>
-<li><strong>passphrase</strong> (<em>string</em>) – If the user’s key file is not local but is stored on the Absio API Server
+<li><strong>passphrase</strong> (<em>str</em>) – If the user’s key file is not local but is stored on the Absio API Server
 Application, the passphrase must be provided so that it may be retrieved.</li>
 </ul>
 </td>

@@ -40,7 +40,7 @@ Quick Start
 
     container = absio.container.create(
         header={'some sensitive metadata': None},
-        content=open('/some/sensitive/data.bin/', 'rb').read(),
+        content=open('/some/sensitive/data.bin', 'rb').read(),
         access=[bob.id, alice.id],
     )
 

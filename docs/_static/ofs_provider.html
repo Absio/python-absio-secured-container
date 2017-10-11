@@ -1,0 +1,156 @@
+<div class="section" id="module-absio.providers.ofs">
+
+<p>All content is stored in the Absio Obfuscating File System (OFS).</p>
+<dl class="data">
+<dt id="absio.providers.ofs.db">
+<code class="descclassname">absio.providers.ofs.</code><code class="descname">db</code><em class="property"> = &lt;absio.providers.ofs.database.AbsioDatabase object&gt;</em><a class="headerlink" href="#absio.providers.ofs.db" title="Permalink to this definition">¶</a></dt>
+<dd><p>The OFS has a SQLite database where all data stored inside of it is encrypted.
+This database may be accessed here.</p>
+</dd></dl>
+<dl class="data">
+<dt id="absio.providers.ofs.client">
+<code class="descclassname">absio.providers.ofs.</code><code class="descname">client</code><em class="property"> = &lt;absio.providers.ofs.ofs_client.AbsioOFSClient object&gt;</em><a class="headerlink" href="#absio.providers.ofs.client" title="Permalink to this definition">¶</a></dt>
+<dd><p>The OFS client allows for creating and looking up random file locations, and then
+reading / writing to those locations.</p>
+</dd></dl>
+<dl class="function">
+<dt id="absio.providers.ofs.login">
+<code class="descclassname">absio.providers.ofs.</code><code class="descname">login</code><span class="sig-paren">(</span><em>user_id=None</em>, <em>password=None</em>, <em>passphrase=None</em>, <em>user=None</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.providers.ofs.login" title="Permalink to this definition">¶</a></dt>
+<dd><p>Logs a user into the OFS provider’s session.</p>
+</dd></dl>
+<dl class="function">
+<dt id="absio.providers.ofs.initialize">
+<code class="descclassname">absio.providers.ofs.</code><code class="descname">initialize</code><span class="sig-paren">(</span><em>api_key</em>, <em>root_dir='.'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.providers.ofs.initialize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Begins setting up the OFS provider.</p>
+</dd></dl>
+<dl class="function">
+<dt id="absio.providers.ofs.logout">
+<code class="descclassname">absio.providers.ofs.</code><code class="descname">logout</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.providers.ofs.logout" title="Permalink to this definition">¶</a></dt>
+<dd><p>Logs the current user out of the OFS provider session.</p>
+</dd></dl>
+<dl class="data">
+<dt id="absio.providers.ofs.session">
+<code class="descclassname">absio.providers.ofs.</code><code class="descname">session</code><em class="property"> = namespace(user=None)</em><a class="headerlink" href="#absio.providers.ofs.session" title="Permalink to this definition">¶</a></dt>
+<dd><p>The provider session will store the logged in user in the <cite>user</cite> attribute.
+Upon logout, the <cite>user</cite> will be cleared out.</p>
+</dd></dl>
+<div class="section" id="id8">
+<h4>Container<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h4>
+<span class="target" id="module-absio.providers.ofs.container"></span><dl class="function">
+<dt id="absio.providers.ofs.container.delete">
+<code class="descclassname">absio.providers.ofs.container.</code><code class="descname">delete</code><span class="sig-paren">(</span><em>container_id</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.providers.ofs.container.delete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes a container from the OFS.</p>
+</dd></dl>
+<dl class="function">
+<dt id="absio.providers.ofs.container.get">
+<code class="descclassname">absio.providers.ofs.container.</code><code class="descname">get</code><span class="sig-paren">(</span><em>container_id</em>, <em>*args</em>, <em>portion='all'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.providers.ofs.container.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves a container from the OFS.</p>
+<p>This method will decrypt the container, if possible.  Reasons for failing to decrypt the
+container include:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Insufficient permissions.</li>
+<li>No data was stored on the Absio API Server Application</li>
+</ol>
+</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name"/>
+<col class="field-body"/>
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>container_id</strong> (<em>UUID</em>) – The ID of the container to be fetched.</li>
+<li><strong>portion</strong> (<em>str</em>) – You may choose which section(s) of a container to retrieve.  This may be one
+of <code class="docutils literal"><span class="pre">content</span></code>, <code class="docutils literal"><span class="pre">header</span></code>, <code class="docutils literal"><span class="pre">metadata</span></code>, or <code class="docutils literal"><span class="pre">all</span></code>.  If either <code class="docutils literal"><span class="pre">content</span></code> or <code class="docutils literal"><span class="pre">header</span></code>
+is chosen, then the <code class="docutils literal"><span class="pre">metadata</span></code> (access information, date / creation information) is
+also retrieved.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Your container, decrypted if possible.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#absio.crypto.container.Container" title="absio.crypto.container.Container"><code class="xref py py-class docutils literal"><span class="pre">Container</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+<dl class="function">
+<dt id="absio.providers.ofs.container.update_or_create">
+<code class="descclassname">absio.providers.ofs.container.</code><code class="descname">update_or_create</code><span class="sig-paren">(</span><em>container</em>, <em>*args</em>, <em>portion='all'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.providers.ofs.container.update_or_create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores a new version of the container in the OFS.</p>
+</dd></dl>
+</div>
+<div class="section" id="id9">
+<h4>Key File<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h4>
+<span class="target" id="module-absio.providers.ofs.key_file"></span><dl class="function">
+<dt id="absio.providers.ofs.key_file.get">
+<code class="descclassname">absio.providers.ofs.key_file.</code><code class="descname">get</code><span class="sig-paren">(</span><em>user_id</em>, <em>password=None</em>, <em>passphrase=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.providers.ofs.key_file.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves a decrypted key file from the OFS.</p>
+</dd></dl>
+<dl class="function">
+<dt id="absio.providers.ofs.key_file.get_checksum">
+<code class="descclassname">absio.providers.ofs.key_file.</code><code class="descname">get_checksum</code><span class="sig-paren">(</span><em>user_id</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.providers.ofs.key_file.get_checksum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves a key file’s SHA256 checksum.</p>
+</dd></dl>
+<dl class="function">
+<dt id="absio.providers.ofs.key_file.update_or_create">
+<code class="descclassname">absio.providers.ofs.key_file.</code><code class="descname">update_or_create</code><span class="sig-paren">(</span><em>key_file</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.providers.ofs.key_file.update_or_create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores a new version of the keys file in the OFS.</p>
+</dd></dl>
+</div>
+<div class="section" id="id10">
+<h4>Keys<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h4>
+<span class="target" id="module-absio.providers.ofs.keys"></span><dl class="function">
+<dt id="absio.providers.ofs.keys.get">
+<code class="descclassname">absio.providers.ofs.keys.</code><code class="descname">get</code><span class="sig-paren">(</span><em>user_id</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.providers.ofs.keys.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves the public keys for a user from the OFS.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name"/>
+<col class="field-body"/>
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>user_id</strong> (<em>UUID</em>) – The ID of the user for whom the keys should be fetched.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A key ring containing only the public keys.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">KeyRing</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+<dl class="function">
+<dt id="absio.providers.ofs.keys.update_or_create">
+<code class="descclassname">absio.providers.ofs.keys.</code><code class="descname">update_or_create</code><span class="sig-paren">(</span><em>key_ring</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.providers.ofs.keys.update_or_create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores the public keys for a user in the OFS.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name"/>
+<col class="field-body"/>
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>key_ring</strong> (<code class="xref py py-class docutils literal"><span class="pre">KeyRing</span></code>) – The keys to be stored.  Only the public portions will be stored.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+</div>
+<div class="section" id="id11">
+<h4>User<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h4>
+<span class="target" id="module-absio.providers.ofs.user"></span><p>Manipulates users in the OFS.</p>
+<dl class="function">
+<dt id="absio.providers.ofs.user.change_credentials">
+<code class="descclassname">absio.providers.ofs.user.</code><code class="descname">change_credentials</code><span class="sig-paren">(</span><em>password</em>, <em>passphrase</em>, <em>password_validator=&lt;function is_password_valid&gt;</em>, <em>passphrase_validator=&lt;function is_passphrase_valid&gt;</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.providers.ofs.user.change_credentials" title="Permalink to this definition">¶</a></dt>
+<dd><p>Changes a user’s credentials.</p>
+<p>A new Key File is generated and stored in the OFS.</p>
+</dd></dl>
+<dl class="function">
+<dt id="absio.providers.ofs.user.create">
+<code class="descclassname">absio.providers.ofs.user.</code><code class="descname">create</code><span class="sig-paren">(</span><em>signing_key</em>, <em>derivation_key</em>, <em>user_id=None</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.providers.ofs.user.create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a user in the OFS.</p>
+</dd></dl>
+<dl class="function">
+<dt id="absio.providers.ofs.user.delete">
+<code class="descclassname">absio.providers.ofs.user.</code><code class="descname">delete</code><span class="sig-paren">(</span><em>user</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.providers.ofs.user.delete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deletes a user from the OFS.</p>
+<p>All data stored in the OFS root directory will be removed.</p>
+</dd></dl>
+</div>
+</div>

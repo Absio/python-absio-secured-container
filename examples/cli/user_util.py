@@ -7,6 +7,7 @@ credentials.
 import click
 import absio
 import logging
+import sys
 from functools import partial
 
 APP_NAME = 'python-absio-user-cli'
@@ -66,7 +67,7 @@ def create(api_key, url, password, reminder, backup_phrase):
         user = absio.user.create(password=password, reminder=reminder, passphrase=backup_phrase)
     except Exception as e:
         error('Failed to create user: {e}'.format(e=e))
-        return
+        sys.exit(1)
     success('User created: {user}'.format(user=user))
 
 
@@ -81,22 +82,26 @@ def delete(api_key, url, user_id, password, backup_phrase):
         absio.user.delete(user)
     except Exception as e:
         error('Failed to delete user: {e}'.format(e=e))
-        return
+        sys.exit(1)
     success('Deleted user: {id}'.format(id=user_id))
 
 
-@cli.command()
-@apply_options(*(server_options + login_options))
-def login(api_key, url, user_id, password, backup_phrase):
-    """Verifies credentials by logging in."""
+def _login(api_key, url, user_id, password, backup_phrase):
     info('Logging in.')
     absio.initialize(api_key, app_name=APP_NAME)
     try:
         user = absio.login(user_id, password=password, passphrase=backup_phrase)
     except Exception as e:
         error('Failed to login user: {e}'.format(e=e))
-        return
+        sys.exit(1)
     success('Successfully logged in user: {user}'.format(user=user))
+
+
+@cli.command()
+@apply_options(*(server_options + login_options))
+def login(api_key, url, user_id, password, backup_phrase):
+    """Verifies credentials by logging in."""
+    _login(api_key, url, user_id, password, backup_phrase)
 
 
 @cli.command()
@@ -110,49 +115,28 @@ def getreminder(api_key, url, user_id):
         reminder = absio.user.get_backup_reminder(user_id)
     except Exception as e:
         error('Failed to fetch reminder information: {e}'.format(e=e))
-        return
+        sys.exit(1)
     success('Reminder information: {reminder}'.format(reminder=reminder))
 
 
 @cli.command()
-@apply_options(*server_options)
-@click.option('--user-id', required=True)
-@click.option('--backup-phrase', required=True)
+@apply_options(*(server_options + login_options))
 @click.option('--new-password', required=True)
-def changepassword(api_key, url, user_id, backup_phrase, new_password):
-    """Changes a user's password.
-
-    Uses the backup passphrase to unlock the key file rescue."""
-    info('Changing password.')
-    absio.initialize(api_key, app_name=APP_NAME)
-    try:
-        absio.user.change_password(user_id=user_id, passphrase=backup_phrase, new_password=new_password)
-    except Exception as e:
-        error('Failed to change password: {e}'.format(e=e))
-        return
-    success('Password successfully changed to {new_pass} for {user_id}.'.format(new_pass=new_password, user_id=user_id))
-
-
-@cli.command()
-@apply_options(*server_options)
-@click.option('--user-id', required=True)
-@click.option('--backup-phrase', required=True)
 @click.option('--new-backup-phrase', required=True)
-@click.option('--new-reminder', required=True)
-def changebackupcreds(api_key, url, user_id, backup_phrase, new_backup_phrase, new_reminder):
+@click.option('--new-reminder', required=False)
+def change_credentials(api_key, url, user_id, password, backup_phrase, new_password, new_backup_phrase, new_reminder):
     """Changes a user's backup phrase and reminder."""
     info('Changing backup passphrase and reminder.')
-    absio.initialize(api_key, app_name=APP_NAME)
+    _login(api_key, url, user_id, password, backup_phrase)
     try:
-        absio.user.change_backup_credentials(
-            user_id=user_id,
-            current_passphrase=backup_phrase,
-            new_reminder=new_reminder,
-            new_passphrase=new_backup_phrase
+        absio.user.change_credentials(
+            password=new_password,
+            passphrase=new_backup_phrase,
+            reminder=new_reminder,
         )
     except Exception as e:
         error('Failed to change backup credentials: {e}'.format(e=e))
-        return
+        sys.exit(1)
     success('Successfully changed backup passphrase to {p}'.format(p=new_backup_phrase))
     success('Successfully changed backup reminder to {r}'.format(r=new_reminder))
 

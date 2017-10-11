@@ -16,7 +16,7 @@ information includes the date the container was created, when it was modified, t
 length of the container.</p>
 <dl class="function">
 <dt id="absio.container.create">
-<code class="descclassname">absio.container.</code><code class="descname">create</code><span class="sig-paren">(</span><em>content</em>, <em>access=None</em>, <em>header=None</em>, <em>type=None</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.container.create" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">absio.container.</code><code class="descname">create</code><span class="sig-paren">(</span><em>content</em>, <em>access=None</em>, <em>header=None</em>, <em>type=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.container.create" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a <a class="reference internal" href="#module-absio.crypto.container" title="absio.crypto.container"><code class="xref py py-class docutils literal"><span class="pre">Container</span></code></a>.</p>
 <p>The container will be uploaded to the Absio API Server Application and access will be granted
 to the specified users.  If local storage is being utilized, the container and associated
@@ -72,7 +72,7 @@ on the Absio API Server Application.</li>
 </dd></dl>
 <dl class="function">
 <dt id="absio.container.delete">
-<code class="descclassname">absio.container.</code><code class="descname">delete</code><span class="sig-paren">(</span><em>container_id</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.container.delete" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">absio.container.</code><code class="descname">delete</code><span class="sig-paren">(</span><em>container_id</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.container.delete" title="Permalink to this definition">¶</a></dt>
 <dd><p>This revokes the authenticated user’s access to the container.</p>
 <p>If local storage is being utilized, the container and the associated access will be removed
 from the OFS.  If the authenticated user is the only user with access, then the content will
@@ -94,7 +94,7 @@ access and the content then being removed locally and on the Absio API Server Ap
 </dd></dl>
 <dl class="function">
 <dt id="absio.container.get">
-<code class="descclassname">absio.container.</code><code class="descname">get</code><span class="sig-paren">(</span><em>container_id</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.container.get" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">absio.container.</code><code class="descname">get</code><span class="sig-paren">(</span><em>container_id</em>, <em>*args</em>, <em>portion='all'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.container.get" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieves a container and decrypts it for use.</p>
 <p>If local storage is being utilized, the library will first check the OFS.  If not using
 local storage or the container is not found, the latest version will be downloaded from the
@@ -103,14 +103,27 @@ Absio API Server Application.  By default, the content is included (downloaded a
 <col class="field-name"/>
 <col class="field-body"/>
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>container_id</strong> (<em>UUID</em>) – The ID of the container to fetch.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>container_id</strong> (<em>UUID</em>) – The ID of the container to fetch.</li>
+<li><strong>portion</strong> (<em>str</em>) – You may choose which section(s) of a container to retrieve.  This may be one
+of <code class="docutils literal"><span class="pre">content</span></code>, <code class="docutils literal"><span class="pre">header</span></code>, <code class="docutils literal"><span class="pre">metadata</span></code>, or <code class="docutils literal"><span class="pre">all</span></code>.  If either <code class="docutils literal"><span class="pre">content</span></code> or <code class="docutils literal"><span class="pre">header</span></code>
+is chosen, then the <code class="docutils literal"><span class="pre">metadata</span></code> (access information, date / creation information) is
+also retrieved.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Your container, decrypted if possible.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#absio.crypto.container.Container" title="absio.crypto.container.Container"><code class="xref py py-class docutils literal"><span class="pre">Container</span></code></a></p>
+</td>
 </tr>
 </tbody>
 </table>
 </dd></dl>
 <dl class="function">
 <dt id="absio.container.get_events">
-<code class="descclassname">absio.container.</code><code class="descname">get_events</code><span class="sig-paren">(</span><em>container_type=None</em>, <em>container_id=None</em>, <em>action=None</em>, <em>starting_event_id=None</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.container.get_events" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">absio.container.</code><code class="descname">get_events</code><span class="sig-paren">(</span><em>container_type=None</em>, <em>container_id=None</em>, <em>action=None</em>, <em>starting_event_id=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.container.get_events" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets all new container events since the last call to this method.</p>
 <p>If any of the arguments are provided, then they change the criteria used to query and filter
 results.  These events are retrieved from the Absio API Server Application.</p>
@@ -228,7 +241,7 @@ translated into the format you desire.</li>
 <col class="field-body"/>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>container_keys</strong> (<a class="reference internal" href="#absio.crypto.container.ContainerKeys" title="absio.crypto.container.ContainerKeys"><code class="xref py py-class docutils literal"><span class="pre">ContainerKeys</span></code></a>) – An optional parameter, the container_keys that came from
-decrypting the recipient key bob (RKB).  If not provided, and the
+decrypting the recipient key blob (RKB).  If not provided, and the
 Container keys were stored as part of the encryption process, those
 stored keys will be used.</td>
 </tr>
@@ -293,6 +306,10 @@ otherwise a new set will be created.</td>
 <dl class="attribute">
 <dt id="absio.crypto.container.ContainerKeys.cipher_key">
 <code class="descname">cipher_key</code><a class="headerlink" href="#absio.crypto.container.ContainerKeys.cipher_key" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="staticmethod">
+<dt id="absio.crypto.container.ContainerKeys.from_bytes">
+<em class="property">static </em><code class="descname">from_bytes</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.crypto.container.ContainerKeys.from_bytes" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="attribute">
 <dt id="absio.crypto.container.ContainerKeys.mac_index">
