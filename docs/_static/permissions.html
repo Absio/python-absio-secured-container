@@ -1,0 +1,159 @@
+<div class="section" id="module-absio.permissions">
+
+<p>Permissions are a critical component of <a class="reference internal" href="#absio.access.Access" title="absio.access.Access"><code class="xref py py-class docutils literal"><span class="pre">Access</span></code></a>.</p>
+<p>Permissions are rules for the Absio API Server Application to enforce.  The permissions define
+how the Absio API Server Application will respond to <a class="reference internal" href="#absio.container.create" title="absio.container.create"><code class="xref py py-func docutils literal"><span class="pre">create</span></code></a>,
+<a class="reference internal" href="#absio.container.get" title="absio.container.get"><code class="xref py py-func docutils literal"><span class="pre">get</span></code></a>, <a class="reference internal" href="#absio.container.update" title="absio.container.update"><code class="xref py py-func docutils literal"><span class="pre">update</span></code></a> and <a class="reference internal" href="#absio.container.delete" title="absio.container.delete"><code class="xref py py-func docutils literal"><span class="pre">delete</span></code></a> operations for a given container.  Therefore, the <code class="docutils literal"><span class="pre">absio</span></code> library and
+Absio API Server Application will be enabled or disabled from performing certain operations based
+on these permissions as well.</p>
+<p>For instance, if the <code class="docutils literal"><span class="pre">container.download</span></code> property is <code class="docutils literal"><span class="pre">False</span></code> for a user and they request the
+container with the <a class="reference internal" href="#absio.container.get" title="absio.container.get"><code class="xref py py-func docutils literal"><span class="pre">get</span></code></a> function, the <a class="reference internal" href="#absio.crypto.container.Container" title="absio.crypto.container.Container"><code class="xref py py-class docutils literal"><span class="pre">Container</span></code></a> instance returned to the user will not have the decrypted
+content or header since the Absio API Server Application will not allow access to this information
+to the <code class="docutils literal"><span class="pre">absio</span></code> library.</p>
+<p>The following table defines the possible permissions:</p>
+<table border="1" class="docutils" id="perms-tbl">
+<colgroup>
+<col width="27%"/>
+<col width="12%"/>
+<col width="15%"/>
+<col width="46%"/>
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Permission</th>
+<th class="head">Creator’s
+Default</th>
+<th class="head">Other User’s
+Default</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">access.view</span></code></td>
+<td><code class="docutils literal"><span class="pre">True</span></code></td>
+<td><code class="docutils literal"><span class="pre">True</span></code></td>
+<td>Permission to view the full access list
+containing all other user’s IDs,
+expiration dates, and permissions. Set to
+<code class="docutils literal"><span class="pre">False</span></code> to prevent a user from seeing
+other user’s access information for the
+container.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">access.modify</span></code></td>
+<td><code class="docutils literal"><span class="pre">True</span></code></td>
+<td><code class="docutils literal"><span class="pre">False</span></code></td>
+<td><p class="first">Permission to add, remove, or update all
+users’ access to a container. Set to
+<code class="docutils literal"><span class="pre">True</span></code> to allow a user to modify access
+to the container.</p>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You should also set <code class="docutils literal"><span class="pre">access.view</span></code> to
+<code class="docutils literal"><span class="pre">True</span></code> if this is <code class="docutils literal"><span class="pre">True</span></code>.
+Otherwise, the user can modify the
+access list, but not include others who
+have access.</p>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">container.decrypt</span></code></td>
+<td><code class="docutils literal"><span class="pre">True</span></code></td>
+<td><code class="docutils literal"><span class="pre">True</span></code></td>
+<td>Permission to access the unique contianer-
+specific keys required for this user to
+to decrypt the container. Set to <code class="docutils literal"><span class="pre">False</span></code>
+to prevent a user from being able to
+decrypt the container’s content and
+header.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">container.download</span></code></td>
+<td><code class="docutils literal"><span class="pre">True</span></code></td>
+<td><code class="docutils literal"><span class="pre">True</span></code></td>
+<td>Permission to allow a user to download the
+encrypted container’s data. Set to
+<code class="docutils literal"><span class="pre">False</span></code> to prevent a user from accessing
+the encrypted container data.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">container.type.view</span></code></td>
+<td><code class="docutils literal"><span class="pre">True</span></code></td>
+<td><code class="docutils literal"><span class="pre">False</span></code></td>
+<td>Permission to view the container’s
+<code class="docutils literal"><span class="pre">type</span></code> attribute.  Set to <code class="docutils literal"><span class="pre">True</span></code> to
+allow a user to see the container’s
+<code class="docutils literal"><span class="pre">type</span></code> attribute.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">container.type.modify</span></code></td>
+<td><code class="docutils literal"><span class="pre">True</span></code></td>
+<td><code class="docutils literal"><span class="pre">False</span></code></td>
+<td>Permission to modify the container’s
+<code class="docutils literal"><span class="pre">type</span></code> attribute.  Set to <code class="docutils literal"><span class="pre">True</span></code> to
+allow a user to make changes to a
+container’s <code class="docutils literal"><span class="pre">type</span></code> attribute.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">container.upload</span></code></td>
+<td><code class="docutils literal"><span class="pre">True</span></code></td>
+<td><code class="docutils literal"><span class="pre">False</span></code></td>
+<td><p class="first">Permission to upload changes to the
+container’s content and header.  Set to
+<code class="docutils literal"><span class="pre">True</span></code> to allow a user to upload changes
+to the container’s content and header.</p>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If setting <code class="docutils literal"><span class="pre">access.modify</span></code> to
+<code class="docutils literal"><span class="pre">True</span></code>, <code class="docutils literal"><span class="pre">access.view</span></code> and
+<code class="docutils literal"><span class="pre">access.modify</span></code> should also be set to
+<code class="docutils literal"><span class="pre">True</span></code>.  Otherwise this combination
+of permissions will be rejected by the
+Absio API Server Application.</p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="known-permission-error-cases">
+<h4>Known Permission “Error” Cases<a class="headerlink" href="#known-permission-error-cases" title="Permalink to this headline">¶</a></h4>
+<p>The following are some permission states that may have adverse effects:</p>
+<ol class="arabic simple">
+<li><code class="docutils literal"><span class="pre">access.view</span></code> is <code class="docutils literal"><span class="pre">False</span></code> and <code class="docutils literal"><span class="pre">access.modify</span></code> is <code class="docutils literal"><span class="pre">True</span></code>.  The user can update
+the access list but will not know the other users with current access.  Thus the
+update could potentially remove all other users from the current access list (aside
+from the user performing the action).</li>
+<li><code class="docutils literal"><span class="pre">access.view</span></code> is <code class="docutils literal"><span class="pre">True</span></code> and <code class="docutils literal"><span class="pre">container.upload</span></code> is <code class="docutils literal"><span class="pre">True</span></code> and <code class="docutils literal"><span class="pre">access.modify</span></code> is
+<code class="docutils literal"><span class="pre">False</span></code>.  This operation will be rejected by the Absio API Server Application.  Since
+uploading content requires re-keying the data, all access must be updated (each user with
+access will receive new keys).  Since they cannot modify access, it will be rejected.</li>
+<li><code class="docutils literal"><span class="pre">container.upload</span></code> is <code class="docutils literal"><span class="pre">False</span></code>.  Calls to <a class="reference internal" href="#absio.container.update" title="absio.container.update"><code class="xref py py-func docutils literal"><span class="pre">update</span></code></a> may be
+rejected.</li>
+<li><code class="docutils literal"><span class="pre">container.download</span></code> is <code class="docutils literal"><span class="pre">False</span></code> or <code class="docutils literal"><span class="pre">container.decrypt</span></code> is <code class="docutils literal"><span class="pre">False</span></code>.  If the data is
+not cached locally in the Obfuscating File System, calls to <a class="reference internal" href="#absio.container.get" title="absio.container.get"><code class="xref py py-func docutils literal"><span class="pre">get</span></code></a> will return a <a class="reference internal" href="#absio.crypto.container.Container" title="absio.crypto.container.Container"><code class="xref py py-class docutils literal"><span class="pre">Container</span></code></a>
+with both <code class="docutils literal"><span class="pre">content</span></code> and <code class="docutils literal"><span class="pre">header</span></code> both not containing any data.</li>
+</ol>
+<dl class="class">
+<dt id="absio.permissions.Permissions">
+<em class="property">class </em><code class="descclassname">absio.permissions.</code><code class="descname">Permissions</code><span class="sig-paren">(</span><em>value=127</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.permissions.Permissions" title="Permalink to this definition">¶</a></dt>
+<dd><p>An easy way to set access permissions.</p>
+<p>An instance of this class may be passed when specifying <a class="reference internal" href="#absio.access.Access" title="absio.access.Access"><code class="xref py py-class docutils literal"><span class="pre">Access</span></code></a>.</p>
+<p>Each individual permission value is defined <a class="reference internal" href="#perms-tbl"><span class="std std-ref">here</span></a>.</p>
+<p>Usage:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># By default, all permissions are set.</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">Permissions</span><span class="p">()</span>
+<span class="o">&lt;</span><span class="n">Permission</span><span class="p">(</span><span class="n">container</span><span class="o">.</span><span class="n">download</span><span class="o">|</span><span class="n">container</span><span class="o">.</span><span class="n">decrypt</span><span class="o">|</span><span class="n">container</span><span class="o">.</span><span class="n">upload</span><span class="o">|</span><span class="n">container</span><span class="o">.</span><span class="n">type</span><span class="o">.</span><span class="n">view</span><span class="o">|</span><span class="n">container</span><span class="o">.</span><span class="n">type</span><span class="o">.</span><span class="n">modify</span><span class="o">|</span><span class="n">access</span><span class="o">.</span><span class="n">view</span><span class="o">|</span><span class="n">access</span><span class="o">.</span><span class="n">modify</span><span class="p">)</span> <span class="nb">int</span><span class="o">=</span><span class="mi">127</span><span class="o">&gt;</span>
+
+<span class="c1"># It is easy to individually remove permissions.</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">Permissions</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">p</span><span class="o">.</span><span class="n">container</span><span class="o">.</span><span class="n">download</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">p</span><span class="o">.</span><span class="n">container</span><span class="o">.</span><span class="n">decrypt</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="o">&lt;</span><span class="n">Permission</span><span class="p">(</span><span class="n">container</span><span class="o">.</span><span class="n">upload</span><span class="o">|</span><span class="n">container</span><span class="o">.</span><span class="n">type</span><span class="o">.</span><span class="n">view</span><span class="o">|</span><span class="n">container</span><span class="o">.</span><span class="n">type</span><span class="o">.</span><span class="n">modify</span><span class="o">|</span><span class="n">access</span><span class="o">.</span><span class="n">view</span><span class="o">|</span><span class="n">access</span><span class="o">.</span><span class="n">modify</span><span class="p">)</span> <span class="nb">int</span><span class="o">=</span><span class="mi">124</span><span class="o">&gt;</span>
+
+<span class="c1"># It is easy to selectively add permissions.</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">Permissions</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># Start with no permissions.</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">p</span><span class="o">.</span><span class="n">access</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="o">&lt;</span><span class="n">Permission</span><span class="p">(</span><span class="n">access</span><span class="o">.</span><span class="n">view</span><span class="p">)</span> <span class="nb">int</span><span class="o">=</span><span class="mi">8</span><span class="o">&gt;</span>
+
+<span class="c1"># You can also reconstruct permission flags if you know the integer value.</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">Permissions</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="o">&lt;</span><span class="n">Permission</span><span class="p">(</span><span class="n">container</span><span class="o">.</span><span class="n">decrypt</span><span class="o">|</span><span class="n">container</span><span class="o">.</span><span class="n">type</span><span class="o">.</span><span class="n">modify</span><span class="o">|</span><span class="n">access</span><span class="o">.</span><span class="n">view</span><span class="p">)</span> <span class="nb">int</span><span class="o">=</span><span class="mi">42</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+</div>
+</div>

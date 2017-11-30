@@ -1,0 +1,225 @@
+<div class="section" id="module-absio.providers.server_cache_ofs">
+
+<p>This provider joins together the Server and OFS providers and is the default.</p>
+<p>The OFS is intended to be used as a cache.  Generally speaking, when querying for data
+the OFS is first interrogated.  If it is not found, it is requested from the server.  If
+the server has the data, we attempt to store it into the OFS cache prior to returning it.</p>
+<p>Unlike the other providers, this provider supports options.  These can be set with the
+provider context manager, or manipulated directly on the provider itself.</p>
+<dl class="function">
+<dt id="absio.providers.server_cache_ofs.login">
+<code class="descclassname">absio.providers.server_cache_ofs.</code><code class="descname">login</code><span class="sig-paren">(</span><em>user_id=None</em>, <em>password=None</em>, <em>passphrase=None</em>, <em>user=None</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.providers.server_cache_ofs.login" title="Permalink to this definition">¶</a></dt>
+<dd><p>Logs the user into the provider’s session.</p>
+</dd></dl>
+<dl class="function">
+<dt id="absio.providers.server_cache_ofs.logout">
+<code class="descclassname">absio.providers.server_cache_ofs.</code><code class="descname">logout</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.providers.server_cache_ofs.logout" title="Permalink to this definition">¶</a></dt>
+<dd><p>Logs the user out of the provider’s session.</p>
+</dd></dl>
+<dl class="function">
+<dt id="absio.providers.server_cache_ofs.initialize">
+<code class="descclassname">absio.providers.server_cache_ofs.</code><code class="descname">initialize</code><span class="sig-paren">(</span><em>api_key</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.providers.server_cache_ofs.initialize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes both the OFS and server providers.</p>
+</dd></dl>
+<dl class="data">
+<dt id="absio.providers.server_cache_ofs.session">
+<code class="descclassname">absio.providers.server_cache_ofs.</code><code class="descname">session</code><em class="property"> = namespace(user=None)</em><a class="headerlink" href="#absio.providers.server_cache_ofs.session" title="Permalink to this definition">¶</a></dt>
+<dd><p>The provider session will store the logged in user in the <cite>user</cite> attribute.  Upon logout,
+the <cite>user</cite> will be cleared out.</p>
+</dd></dl>
+<dl class="data">
+<dt id="absio.providers.server_cache_ofs.options">
+<code class="descclassname">absio.providers.server_cache_ofs.</code><code class="descname">options</code><em class="property"> = namespace(force_refresh=False)</em><a class="headerlink" href="#absio.providers.server_cache_ofs.options" title="Permalink to this definition">¶</a></dt>
+<dd><p>These options will modify the behavior of the provider.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="20%"/>
+<col width="10%"/>
+<col width="70%"/>
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Option</th>
+<th class="head">Default</th>
+<th class="head">Purpose</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">force_refresh</span></code></td>
+<td><code class="docutils literal"><span class="pre">False</span></code></td>
+<td>Since the <cite>server_cache_ofs</cite> provider uses the OFS as a
+cache (which does not expire), then getting updated info
+into the cache could be a tricky matter.  Setting this flag
+to <code class="docutils literal"><span class="pre">True</span></code> will result in data look ups avoiding querying
+the OFS first, instead reaching out for the data on the
+server.  The newly retrieved data will then be stored in the
+OFS.</td>
+</tr>
+</tbody>
+</table>
+<p>The <code class="docutils literal"><span class="pre">force_refresh</span></code> option in particular is useful when <a class="reference internal" href="faq.html#force-refresh-example"><span class="std std-ref">syncing events</span></a>.</p>
+</dd></dl>
+<div class="section" id="id1">
+<h4>Container<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
+<span class="target" id="module-absio.providers.server_cache_ofs.container"></span><dl class="function">
+<dt id="absio.providers.server_cache_ofs.container.delete">
+<code class="descclassname">absio.providers.server_cache_ofs.container.</code><code class="descname">delete</code><span class="sig-paren">(</span><em>container_id</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.providers.server_cache_ofs.container.delete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes a container from the OFS and the server.</p>
+</dd></dl>
+<dl class="function">
+<dt id="absio.providers.server_cache_ofs.container.get">
+<code class="descclassname">absio.providers.server_cache_ofs.container.</code><code class="descname">get</code><span class="sig-paren">(</span><em>container_id</em>, <em>*args</em>, <em>portion='all'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.providers.server_cache_ofs.container.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves a container out of the OFS, falling back on the server if necessary.</p>
+<p>This method will decrypt the container, if possible.  Reasons for failing to decrypt the
+container include:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Insufficient permissions.</li>
+<li>No data was stored on the Absio API Server Application</li>
+</ol>
+</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name"/>
+<col class="field-body"/>
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>container_id</strong> (<em>UUID</em>) – The ID of the container to be fetched.</li>
+<li><strong>portion</strong> (<em>str</em>) – You may choose which section(s) of a container to retrieve.  This may be one
+of <code class="docutils literal"><span class="pre">content</span></code>, <code class="docutils literal"><span class="pre">header</span></code>, <code class="docutils literal"><span class="pre">metadata</span></code>, or <code class="docutils literal"><span class="pre">all</span></code>.  If either <code class="docutils literal"><span class="pre">content</span></code> or <code class="docutils literal"><span class="pre">header</span></code>
+is chosen, then the <code class="docutils literal"><span class="pre">metadata</span></code> (access information, date / creation information) is
+also retrieved.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Your container, decrypted if possible.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#absio.crypto.container.Container" title="absio.crypto.container.Container"><code class="xref py py-class docutils literal"><span class="pre">Container</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+<dl class="function">
+<dt id="absio.providers.server_cache_ofs.container.update_or_create">
+<code class="descclassname">absio.providers.server_cache_ofs.container.</code><code class="descname">update_or_create</code><span class="sig-paren">(</span><em>container</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.providers.server_cache_ofs.container.update_or_create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates or creates the container on the server, then tries to mirror the changes in the OFS.</p>
+<p>The <code class="docutils literal"><span class="pre">kwargs</span></code> are forwarded to the <a class="reference internal" href="#absio.providers.server.container.update_or_create" title="absio.providers.server.container.update_or_create"><code class="xref py py-func docutils literal"><span class="pre">absio.providers.server.container.update_or_create()</span></code></a>
+function.</p>
+</dd></dl>
+</div>
+<div class="section" id="module-absio.providers.server_cache_ofs.events">
+<span id="events"></span><h4>Events<a class="headerlink" href="#module-absio.providers.server_cache_ofs.events" title="Permalink to this headline">¶</a></h4>
+<dl class="function">
+<dt id="absio.providers.server_cache_ofs.events.get">
+<code class="descclassname">absio.providers.server_cache_ofs.events.</code><code class="descname">get</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.providers.server_cache_ofs.events.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves events from the Absio API Server Application.</p>
+<p>Events are not cached in the OFS.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name"/>
+<col class="field-body"/>
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>type</strong> (string: One of <code class="docutils literal"><span class="pre">container</span></code> or <code class="docutils literal"><span class="pre">key_file</span></code>.) – What type of event to fetch.</li>
+<li><strong>container_id</strong> (<em>UUID</em>) – If interested in events for a particular container, pass in the ID.</li>
+<li><strong>container_type</strong> (<em>string</em>) – Filter by the type of container.</li>
+<li><strong>action</strong> (One of <code class="docutils literal"><span class="pre">accessed</span></code>, <code class="docutils literal"><span class="pre">added</span></code>, <code class="docutils literal"><span class="pre">deleted</span></code>, or <code class="docutils literal"><span class="pre">updated</span></code>.) – Filter by the event’s action.</li>
+<li><strong>starting_event_id</strong> (<em>int</em>) – Only retrieve events &gt;= to this ID value.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+</div>
+<div class="section" id="module-absio.providers.server_cache_ofs.key_file">
+<span id="key-file"></span><h4>Key File<a class="headerlink" href="#module-absio.providers.server_cache_ofs.key_file" title="Permalink to this headline">¶</a></h4>
+<dl class="function">
+<dt id="absio.providers.server_cache_ofs.key_file.get">
+<code class="descclassname">absio.providers.server_cache_ofs.key_file.</code><code class="descname">get</code><span class="sig-paren">(</span><em>user_id</em>, <em>password=None</em>, <em>passphrase=None</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.providers.server_cache_ofs.key_file.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves a key file from the OFS, falling back to the server.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name"/>
+<col class="field-body"/>
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The user’s decrypted key file is returned.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">KeyFile</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+<dl class="function">
+<dt id="absio.providers.server_cache_ofs.key_file.needs_sync">
+<code class="descclassname">absio.providers.server_cache_ofs.key_file.</code><code class="descname">needs_sync</code><span class="sig-paren">(</span><em>user_id=None</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.providers.server_cache_ofs.key_file.needs_sync" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a bool indicating whether or not the Key File is synced.</p>
+<p>If the Key File doesn’t exist in the OFS, or if it’s checksum doesn’t match the version
+hosted by the Absio API Server Application, this will return False.</p>
+<p>This function only exists for this provider as it serves to bridge the gap between the two.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name"/>
+<col class="field-body"/>
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Whether or not the Key Files are different.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">bool</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+<dl class="function">
+<dt id="absio.providers.server_cache_ofs.key_file.sync">
+<code class="descclassname">absio.providers.server_cache_ofs.key_file.</code><code class="descname">sync</code><span class="sig-paren">(</span><em>passphrase</em>, <em>user_id=None</em>, <em>password=None</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.providers.server_cache_ofs.key_file.sync" title="Permalink to this definition">¶</a></dt>
+<dd><p>Syncs a key file from the server to the OFS.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name"/>
+<col class="field-body"/>
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>passphrase</strong> (<em>str</em>) – As the file is fetched from the Absio API Server Application, the
+passphrase must be provided.  Because the passphrase can also be used to recover the
+password, the <code class="docutils literal"><span class="pre">password</span></code> argument is optional.</li>
+<li><strong>password</strong> (<em>str</em>) – If provided, the password will be used to decrypt the retrieved key file.
+This can be used to validate that the caller is in possession of both sets of credentials.</li>
+<li><strong>user_id</strong> (<em>UUID</em>) – If not provided, the ID of the user in the current session will be used.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The user’s decrypted key file is returned.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><code class="xref py py-class docutils literal"><span class="pre">KeyFile</span></code>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+<dl class="function">
+<dt id="absio.providers.server_cache_ofs.key_file.update_or_create">
+<code class="descclassname">absio.providers.server_cache_ofs.key_file.</code><code class="descname">update_or_create</code><span class="sig-paren">(</span><em>key_file</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.providers.server_cache_ofs.key_file.update_or_create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores a new version of the keys file on the server and in the OFS.</p>
+</dd></dl>
+</div>
+<div class="section" id="module-absio.providers.server_cache_ofs.keys">
+<span id="keys"></span><h4>Keys<a class="headerlink" href="#module-absio.providers.server_cache_ofs.keys" title="Permalink to this headline">¶</a></h4>
+<dl class="function">
+<dt id="absio.providers.server_cache_ofs.keys.get">
+<code class="descclassname">absio.providers.server_cache_ofs.keys.</code><code class="descname">get</code><span class="sig-paren">(</span><em>user_id</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.providers.server_cache_ofs.keys.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves the public keys for a user.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name"/>
+<col class="field-body"/>
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>user_id</strong> (<em>UUID</em>) – The ID of the user for whom the keys should be fetched.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A key ring containing only the public keys.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">KeyRing</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+</div>
+<div class="section" id="id2">
+<h4>User<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
+<span class="target" id="module-absio.providers.server_cache_ofs.user"></span></div>
+</div>
