@@ -1,0 +1,52 @@
+<div class="section" id="module-absio.crypto.ecdsa">
+
+<dl class="function">
+<dt id="absio.crypto.ecdsa.sign">
+<code class="descclassname">absio.crypto.ecdsa.</code><code class="descname">sign</code><span class="sig-paren">(</span><em>private_key</em>, <em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.crypto.ecdsa.sign" title="Permalink to this definition">¶</a></dt>
+<dd><p>Signs some data.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name"/>
+<col class="field-body"/>
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>private_key</strong> (<em>TBD</em>) – The private key to use for signing.</li>
+<li><strong>data</strong> (<em>bytes</em>) – The data to be signed.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The signature.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">bytes</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+<dl class="function">
+<dt id="absio.crypto.ecdsa.verify">
+<code class="descclassname">absio.crypto.ecdsa.</code><code class="descname">verify</code><span class="sig-paren">(</span><em>public_key</em>, <em>data</em>, <em>signature</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.crypto.ecdsa.verify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Signature verification.</p>
+<p>For some given data and a signature, it will verify that it was in fact signed using the
+private key related to the provided public key.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name"/>
+<col class="field-body"/>
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>public_key</strong> (<em>TBD</em>) – The public key corresponding to the private key used to generate the signature.</li>
+<li><strong>data</strong> (<em>bytes</em>) – The original data that was signed.</li>
+<li><strong>signature</strong> (<em>bytes</em>) – The resulting signature that is to be verified.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">None if the signature is valid, raises an exception otherwise.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">None</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+</div>

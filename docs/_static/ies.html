@@ -1,0 +1,48 @@
+<div class="section" id="module-absio.crypto.ies">
+
+<p>Included in the IES module is a special Integrated Encryption Scheme.</p>
+<p>In this scheme ECDH is computed using the recipient user’s public derivation key.  The resultant
+key is used to encrypt the data.  That data is then signed with the sending user’s signing key.
+By default this will use AES 256 CTR NoPadding along with ECDH and ECDSA both using curve P384.
+There is also a simple command line utility to perform the encrypt and decrypt operations.</p>
+<dl class="function">
+<dt id="absio.crypto.ies.decrypt">
+<code class="descclassname">absio.crypto.ies.</code><code class="descname">decrypt</code><span class="sig-paren">(</span><em>data</em>, <em>recip_keys</em>, <em>sender_keys=None</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.crypto.ies.decrypt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decrypts some ECC data.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name"/>
+<col class="field-body"/>
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>recip_keys</strong> – The recipient’s key ring.  The data will contain a
+reference to which Derivation key was used in the creation and from
+that information, the correct key will be chosen.</li>
+<li><strong>sender_keys</strong> – The sender’s key ring, used for signature verification.
+If not provided, the signing key material embedded in the data will be
+used instead.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+<dl class="function">
+<dt id="absio.crypto.ies.encrypt">
+<code class="descclassname">absio.crypto.ies.</code><code class="descname">encrypt</code><span class="sig-paren">(</span><em>data</em>, <em>sender_keys</em>, <em>recip_keys</em>, <em>obj_id=None</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.crypto.ies.encrypt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encrypts some data with an ephemeral key.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name"/>
+<col class="field-body"/>
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>sender_keys</strong> – The sender’s key ring, used for signature verification.</li>
+<li><strong>recip_keys</strong> – The recipient’s key ring.  The data will contain a
+reference to which Derivation key was used in the creation and from
+that information, the correct key will be chosen.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+</div>

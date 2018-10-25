@@ -62,7 +62,7 @@ def apply_options(*options):
 def create(api_key, url, password, reminder, backup_phrase):
     """Registers a new user."""
     info('Creating user.')
-    absio.initialize(api_key, app_name=APP_NAME)
+    absio.initialize(api_key, app_name=APP_NAME, server_url=url)
     try:
         user = absio.user.create(password=password, reminder=reminder, passphrase=backup_phrase)
     except Exception as e:
@@ -76,10 +76,10 @@ def create(api_key, url, password, reminder, backup_phrase):
 def delete(api_key, url, user_id, password, backup_phrase):
     """Permanently removes a user."""
     info('Deleting user.')
-    absio.initialize(api_key, app_name=APP_NAME)
+    absio.initialize(api_key, app_name=APP_NAME, server_url=url)
     try:
-        user = absio.login(user_id, password=password, passphrase=backup_phrase)
-        absio.user.delete(user)
+        absio.login(user_id, password=password, passphrase=backup_phrase)
+        absio.user.delete()
     except Exception as e:
         error('Failed to delete user: {e}'.format(e=e))
         sys.exit(1)
@@ -88,7 +88,7 @@ def delete(api_key, url, user_id, password, backup_phrase):
 
 def _login(api_key, url, user_id, password, backup_phrase):
     info('Logging in.')
-    absio.initialize(api_key, app_name=APP_NAME)
+    absio.initialize(api_key, app_name=APP_NAME, server_url=url)
     try:
         user = absio.login(user_id, password=password, passphrase=backup_phrase)
     except Exception as e:
@@ -110,7 +110,7 @@ def login(api_key, url, user_id, password, backup_phrase):
 def getreminder(api_key, url, user_id):
     """Returns the publicly accessible reminder for the user's backup passphrase."""
     info('Fetching reminder information.')
-    absio.initialize(api_key, app_name=APP_NAME)
+    absio.initialize(api_key, app_name=APP_NAME, server_url=url)
     try:
         reminder = absio.user.get_backup_reminder(user_id)
     except Exception as e:

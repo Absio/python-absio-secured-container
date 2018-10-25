@@ -21,7 +21,7 @@ Behaves very similarly to the requests module.</p>
 pasword will be rescued from the Key File.</li>
 <li><strong>passphase</strong> – The user’s backup passphrase used to retrieve the Key File (and optionally
 rescue the password.)</li>
-<li><strong>user</strong> (<a class="reference internal" href="#absio.user.User" title="absio.user.User"><code class="xref py py-class docutils literal"><span class="pre">User</span></code></a>) – An existing user that may have been logged in via another provider.</li>
+<li><strong>user</strong> (<a class="reference internal" href="#absio.user.User" title="absio.user.User"><code class="xref py py-class docutils literal notranslate"><span class="pre">User</span></code></a>) – An existing user that may have been logged in via another provider.</li>
 </ul>
 </td>
 </tr>
@@ -88,17 +88,17 @@ container include:</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>container_id</strong> (<em>UUID</em>) – The ID of the container to be fetched.</li>
 <li><strong>portion</strong> (<em>str</em>) – You may choose which section(s) of a container to retrieve.  This may be one
-of <code class="docutils literal"><span class="pre">content</span></code>, <code class="docutils literal"><span class="pre">header</span></code>, <code class="docutils literal"><span class="pre">metadata</span></code>, or <code class="docutils literal"><span class="pre">all</span></code>.  If either <code class="docutils literal"><span class="pre">content</span></code> or <code class="docutils literal"><span class="pre">header</span></code>
-is chosen, then the <code class="docutils literal"><span class="pre">metadata</span></code> (access information, date / creation information) is
+of <code class="docutils literal notranslate"><span class="pre">content</span></code>, <code class="docutils literal notranslate"><span class="pre">header</span></code>, <code class="docutils literal notranslate"><span class="pre">metadata</span></code>, or <code class="docutils literal notranslate"><span class="pre">all</span></code>.  If either <code class="docutils literal notranslate"><span class="pre">content</span></code> or <code class="docutils literal notranslate"><span class="pre">header</span></code>
+is chosen, then the <code class="docutils literal notranslate"><span class="pre">metadata</span></code> (access information, date / creation information) is
 also retrieved.</li>
-<li><strong>decrypt</strong> (<em>bool</em>) – If <code class="docutils literal"><span class="pre">True</span></code>, the container will be returned decrypted, if possible.</li>
+<li><strong>decrypt</strong> (<em>bool</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, the container will be returned decrypted, if possible.</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Your container, decrypted if possible.</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#absio.crypto.container.Container" title="absio.crypto.container.Container"><code class="xref py py-class docutils literal"><span class="pre">Container</span></code></a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#absio.crypto.container.Container" title="absio.crypto.container.Container"><code class="xref py py-class docutils literal notranslate"><span class="pre">Container</span></code></a></p>
 </td>
 </tr>
 </tbody>
@@ -113,7 +113,7 @@ also retrieved.</li>
 <col class="field-body"/>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>container</strong> (<a class="reference internal" href="#absio.crypto.container.Container" title="absio.crypto.container.Container"><code class="xref py py-class docutils literal"><span class="pre">Container</span></code></a>) – The encrypted container to be uploaded to the server.</li>
+<li><strong>container</strong> (<a class="reference internal" href="#absio.crypto.container.Container" title="absio.crypto.container.Container"><code class="xref py py-class docutils literal notranslate"><span class="pre">Container</span></code></a>) – The encrypted container to be uploaded to the server.</li>
 <li><strong>requires_upload</strong> (<em>bool</em>) – Whether or not the encrypted data has changed, warranting a new upload.</li>
 <li><strong>access_changed</strong> (<em>bool</em>) – Whether or not the container’s access has changed.  This is ignored if
 <cite>requires_upload</cite> is <cite>True</cite>, as the access will be set regardless during the upload
@@ -128,7 +128,7 @@ and may have a different view of the access, depending upon the permissions that
 applied.</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#absio.crypto.container.Container" title="absio.crypto.container.Container"><code class="xref py py-class docutils literal"><span class="pre">Container</span></code></a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#absio.crypto.container.Container" title="absio.crypto.container.Container"><code class="xref py py-class docutils literal notranslate"><span class="pre">Container</span></code></a></p>
 </td>
 </tr>
 </tbody>
@@ -146,10 +146,10 @@ applied.</p>
 <col class="field-body"/>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>type</strong> (string: One of <code class="docutils literal"><span class="pre">container</span></code> or <code class="docutils literal"><span class="pre">key_file</span></code>.) – What type of event to fetch.</li>
+<li><strong>type</strong> (string: One of <code class="docutils literal notranslate"><span class="pre">container</span></code> or <code class="docutils literal notranslate"><span class="pre">key_file</span></code>.) – What type of event to fetch.</li>
 <li><strong>container_id</strong> (<em>UUID</em>) – If interested in events for a particular container, pass in the ID.</li>
 <li><strong>container_type</strong> (<em>string</em>) – Filter by the type of container.</li>
-<li><strong>action</strong> (One of <code class="docutils literal"><span class="pre">accessed</span></code>, <code class="docutils literal"><span class="pre">added</span></code>, <code class="docutils literal"><span class="pre">deleted</span></code>, or <code class="docutils literal"><span class="pre">updated</span></code>.) – Filter by the event’s action.</li>
+<li><strong>action</strong> (One of <code class="docutils literal notranslate"><span class="pre">accessed</span></code>, <code class="docutils literal notranslate"><span class="pre">added</span></code>, <code class="docutils literal notranslate"><span class="pre">deleted</span></code>, or <code class="docutils literal notranslate"><span class="pre">updated</span></code>.) – Filter by the event’s action.</li>
 <li><strong>starting_event_id</strong> (<em>int</em>) – Only retrieve events &gt;= to this ID value.</li>
 </ul>
 </td>
@@ -157,7 +157,7 @@ applied.</p>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">All matching events.</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><cite>list</cite> of <a class="reference internal" href="#absio.event.Event" title="absio.event.Event"><code class="xref py py-class docutils literal"><span class="pre">Events</span></code></a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><cite>list</cite> of <a class="reference internal" href="#absio.event.Event" title="absio.event.Event"><code class="xref py py-class docutils literal notranslate"><span class="pre">Events</span></code></a></p>
 </td>
 </tr>
 </tbody>
@@ -195,7 +195,7 @@ argument is provided.</li>
 <col class="field-body"/>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>key_file</strong> (<code class="xref py py-class docutils literal"><span class="pre">KeyFile</span></code>) – The file to be stored on the server.</li>
+<li><strong>key_file</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">KeyFile</span></code>) – The file to be stored on the server.</li>
 <li><strong>passphrase</strong> – A passphrase that can be used to retrieve the file back down from the server
 in an un-authenticated session.  This will be hashed before it is sent to the server.</li>
 <li><strong>reminder</strong> (<em>str</em>) – If the passphrase is a human generated value, this reminder may help them
@@ -224,7 +224,7 @@ remember what the passphrase is.  Think of a security question / answer pairing.
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A key ring containing only the public keys.</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">KeyRing</span></code></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal notranslate"><span class="pre">KeyRing</span></code></td>
 </tr>
 </tbody>
 </table>
@@ -246,8 +246,8 @@ remember what the passphrase is.  Think of a security question / answer pairing.
 <col class="field-body"/>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>signing_key</strong> (<code class="xref py py-class docutils literal"><span class="pre">AuthKey</span></code>) – The key the user will use for authentication / signature verification operations.</li>
-<li><strong>derivation_key</strong> (<code class="xref py py-class docutils literal"><span class="pre">DerivationKey</span></code>) – The key the user will use for unique secure container encryption key
+<li><strong>signing_key</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">AuthKey</span></code>) – The key the user will use for authentication / signature verification operations.</li>
+<li><strong>derivation_key</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">DerivationKey</span></code>) – The key the user will use for unique secure container encryption key
 creation and key exchange algorithms.</li>
 </ul>
 </td>
@@ -255,7 +255,7 @@ creation and key exchange algorithms.</li>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The user, as it was created on the server.  Will populate their <cite>id</cite> value.</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#absio.user.User" title="absio.user.User"><code class="xref py py-class docutils literal"><span class="pre">User</span></code></a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#absio.user.User" title="absio.user.User"><code class="xref py py-class docutils literal notranslate"><span class="pre">User</span></code></a></p>
 </td>
 </tr>
 </tbody>

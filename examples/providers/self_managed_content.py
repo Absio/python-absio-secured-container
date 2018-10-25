@@ -1,6 +1,6 @@
 """An example provider demonstrating managing yourself the storage of encrypted content.
 
-The Absio API Server Application and OFS are utilized to store users, keys, events, etc, but
+The Absio Broker™ application and OFS are utilized to store users, keys, events, etc, but
 the actual encrypted content is not stored in other of those locations.  Instead, this provider
 allows you to handle the data storage yourself.
 """

@@ -1,0 +1,88 @@
+<div class="section" id="module-absio.crypto.aes">
+
+<dl class="exception">
+<dt id="absio.crypto.aes.DecryptionError">
+<em class="property">exception </em><code class="descclassname">absio.crypto.aes.</code><code class="descname">DecryptionError</code><a class="headerlink" href="#absio.crypto.aes.DecryptionError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raised for decryption problems.</p>
+<p>For instance, if we expect the decrypted data to be a de-serializable JSON string and it is
+not.</p>
+</dd></dl>
+<dl class="function">
+<dt id="absio.crypto.aes.create_iv">
+<code class="descclassname">absio.crypto.aes.</code><code class="descname">create_iv</code><span class="sig-paren">)</span><a class="headerlink" href="#absio.crypto.aes.create_iv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates an initialization vector (iv).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name"/>
+<col class="field-body"/>
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">An initialization vector.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">bytes</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+<dl class="function">
+<dt id="absio.crypto.aes.create_key">
+<code class="descclassname">absio.crypto.aes.</code><code class="descname">create_key</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#absio.crypto.aes.create_key" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a key suitable for usage with AES256.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name"/>
+<col class="field-body"/>
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A symmetric key.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">bytes</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+<dl class="function">
+<dt id="absio.crypto.aes.decrypt">
+<code class="descclassname">absio.crypto.aes.</code><code class="descname">decrypt</code><span class="sig-paren">(</span><em>data</em>, <em>cipher_key</em>, <em>iv</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.crypto.aes.decrypt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Symmetrically decrypts with AES.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name"/>
+<col class="field-body"/>
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>data</strong> (<em>bytes</em>) – Ciphertext data to be decrypted.</li>
+<li><strong>cipher_key</strong> (<em>bytes</em>) – The symmetric key to be used for decryption.</li>
+<li><strong>iv</strong> (<em>bytes</em>) – An initialization vector.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Plaintext for the decrypted data in bytes.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">bytes</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+<dl class="function">
+<dt id="absio.crypto.aes.encrypt">
+<code class="descclassname">absio.crypto.aes.</code><code class="descname">encrypt</code><span class="sig-paren">(</span><em>data</em>, <em>cipher_key</em>, <em>iv</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.crypto.aes.encrypt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Symmetrically encrypts with AES.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name"/>
+<col class="field-body"/>
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>data</strong> (<em>bytes</em>) – Plaintext data to be encrypted.</li>
+<li><strong>cipher_key</strong> (<em>bytes</em>) – The symmetric key to be used for encryption.</li>
+<li><strong>iv</strong> (<em>bytes</em>) – An initialization vector.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Ciphertext for the encrypted data in bytes.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">bytes</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+</div>
