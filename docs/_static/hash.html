@@ -1,0 +1,24 @@
+<div class="section" id="module-absio.crypto.hash">
+
+<dl class="function">
+<dt id="absio.crypto.hash.get_hash">
+<code class="descclassname">absio.crypto.hash.</code><code class="descname">get_hash</code><span class="sig-paren">(</span><em>data</em>, <em>algorithm=&lt;class 'cryptography.hazmat.primitives.hashes.SHA384'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.crypto.hash.get_hash" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tries to intelligently hash a data value.</p>
+<p>If the data is itself already a hash, it does nothing.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name"/>
+<col class="field-body"/>
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>data</strong> (<em>bytes</em>) – The data to hash.</li>
+<li><strong>algorithm</strong> (<em>callable</em>) – Which hashing algorithm to use.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A hexdigest string.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+</div>

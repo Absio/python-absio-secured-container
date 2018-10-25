@@ -7,8 +7,10 @@ import arrow
 import absio
 import click
 import json
+import os
 import pprint
 import sys
+import tempfile
 import uuid
 from copy import deepcopy
 from functools import partial, reduce
@@ -120,6 +122,7 @@ def _container_attr_menu(attrs):
 
 
 def _set_container_content(existing):
+    # Returns a tuple of (content, filename)
     while True:
         click.clear()
         warn('Set container content:\n')
@@ -133,13 +136,13 @@ def _set_container_content(existing):
         menu('D', 'Done.\n')
         c = getchar()
         if c == 'd':
-            return existing
+            return (existing, None)
         if c == '1':
             value = click.prompt('Enter container data')
-            return value.encode('utf-8')
+            return (value.encode('utf-8'), None)
         if c == '2':
             fp = click.prompt('Enter file to load', type=click.File('rb'))
-            return fp.read()
+            return (fp.read(), os.path.basename(fp.name))
 
 
 def _set_container_access(existing):
@@ -268,7 +271,10 @@ def create():
         elif c == '1':
             attrs['header'] = _set_value('header', attrs['header'])
         elif c == '2':
-            attrs['content'] = _set_container_content(attrs['content'])
+            attrs['content'], filename = _set_container_content(attrs['content'])
+            if filename:
+                attrs['type'] = 'File'
+                attrs['header'] = filename
         elif c == '3':
             attrs['type'] = _set_value('Type', attrs['type'])
         elif c == '4':
@@ -305,19 +311,34 @@ def read():
             read()
         main_menu()
     success('\n' + str(container) + '\n')
+    is_file = container.type == 'File'
     for attr in container_attrs:
         if attr == 'access':
             click.echo(click.style('{:>12}'.format(attr), fg='green') + ':')
-            click.echo('{:>16}'.format(pprint.pformat(getattr(container, attr))))
+            # click.echo('{:>16}'.format(pprint.pformat(getattr(container, attr))))
+            for recip, access in getattr(container, attr).items():
+                click.echo('{}: {}'.format(recip, access))
+                click.echo(click.style('                          Created By', fg='magenta') + ': {}'.format(pprint.pformat(access.created_by)))
+                click.echo(click.style('                          Created At', fg='magenta') + ': {}'.format(access.created_at))
+                click.echo(click.style('                         Modified By', fg='magenta') + ': {}'.format(pprint.pformat(access.modified_by)))
+                click.echo(click.style('                         Modified At', fg='magenta') + ': {}'.format(access.modified_at))
         elif attr == 'content':
             content = container.content.data
-            if content is not None and len(content) > 33:
+            if content is not None and len(content) > 33 and not is_file:
                 content = content[:30] + b'...'
+            if is_file:
+                # Write it out to a tmp file and display the file system location
+                filename = os.path.join(tempfile.gettempdir(), container.header.data)
+                with open(filename, 'wb') as f:
+                    f.write(content)
+                content = f.name
             click.echo(click.style('{:>12}'.format(attr), fg='green') + ': ' + str(content))
         else:
             click.echo(click.style('{:>12}'.format(attr), fg='green') + ': ' + str(rgetattr(container, attr)))
     info('')
     click.pause()
+    if is_file:
+        os.unlink(filename)
 
 
 def update():

@@ -44,19 +44,19 @@ the <cite>user</cite> will be cleared out.</p>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">force_refresh</span></code></td>
-<td><code class="docutils literal"><span class="pre">False</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">force_refresh</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">False</span></code></td>
 <td>Since the <cite>server_cache_ofs</cite> provider uses the OFS as a
 cache (which does not expire), then getting updated info
 into the cache could be a tricky matter.  Setting this flag
-to <code class="docutils literal"><span class="pre">True</span></code> will result in data look ups avoiding querying
+to <code class="docutils literal notranslate"><span class="pre">True</span></code> will result in data look ups avoiding querying
 the OFS first, instead reaching out for the data on the
 server.  The newly retrieved data will then be stored in the
 OFS.</td>
 </tr>
 </tbody>
 </table>
-<p>The <code class="docutils literal"><span class="pre">force_refresh</span></code> option in particular is useful when <a class="reference internal" href="faq.html#force-refresh-example"><span class="std std-ref">syncing events</span></a>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">force_refresh</span></code> option in particular is useful when <a class="reference internal" href="faq.html#force-refresh-example"><span class="std std-ref">syncing events</span></a>.</p>
 </dd></dl>
 <div class="section" id="id1">
 <h4>Container<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
@@ -84,8 +84,8 @@ container include:</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>container_id</strong> (<em>UUID</em>) – The ID of the container to be fetched.</li>
 <li><strong>portion</strong> (<em>str</em>) – You may choose which section(s) of a container to retrieve.  This may be one
-of <code class="docutils literal"><span class="pre">content</span></code>, <code class="docutils literal"><span class="pre">header</span></code>, <code class="docutils literal"><span class="pre">metadata</span></code>, or <code class="docutils literal"><span class="pre">all</span></code>.  If either <code class="docutils literal"><span class="pre">content</span></code> or <code class="docutils literal"><span class="pre">header</span></code>
-is chosen, then the <code class="docutils literal"><span class="pre">metadata</span></code> (access information, date / creation information) is
+of <code class="docutils literal notranslate"><span class="pre">content</span></code>, <code class="docutils literal notranslate"><span class="pre">header</span></code>, <code class="docutils literal notranslate"><span class="pre">metadata</span></code>, or <code class="docutils literal notranslate"><span class="pre">all</span></code>.  If either <code class="docutils literal notranslate"><span class="pre">content</span></code> or <code class="docutils literal notranslate"><span class="pre">header</span></code>
+is chosen, then the <code class="docutils literal notranslate"><span class="pre">metadata</span></code> (access information, date / creation information) is
 also retrieved.</li>
 </ul>
 </td>
@@ -93,7 +93,7 @@ also retrieved.</li>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Your container, decrypted if possible.</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#absio.crypto.container.Container" title="absio.crypto.container.Container"><code class="xref py py-class docutils literal"><span class="pre">Container</span></code></a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#absio.crypto.container.Container" title="absio.crypto.container.Container"><code class="xref py py-class docutils literal notranslate"><span class="pre">Container</span></code></a></p>
 </td>
 </tr>
 </tbody>
@@ -103,7 +103,7 @@ also retrieved.</li>
 <dt id="absio.providers.server_cache_ofs.container.update_or_create">
 <code class="descclassname">absio.providers.server_cache_ofs.container.</code><code class="descname">update_or_create</code><span class="sig-paren">(</span><em>container</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#absio.providers.server_cache_ofs.container.update_or_create" title="Permalink to this definition">¶</a></dt>
 <dd><p>Updates or creates the container on the server, then tries to mirror the changes in the OFS.</p>
-<p>The <code class="docutils literal"><span class="pre">kwargs</span></code> are forwarded to the <a class="reference internal" href="#absio.providers.server.container.update_or_create" title="absio.providers.server.container.update_or_create"><code class="xref py py-func docutils literal"><span class="pre">absio.providers.server.container.update_or_create()</span></code></a>
+<p>The <code class="docutils literal notranslate"><span class="pre">kwargs</span></code> are forwarded to the <a class="reference internal" href="#absio.providers.server.container.update_or_create" title="absio.providers.server.container.update_or_create"><code class="xref py py-func docutils literal notranslate"><span class="pre">absio.providers.server.container.update_or_create()</span></code></a>
 function.</p>
 </dd></dl>
 </div>
@@ -119,10 +119,10 @@ function.</p>
 <col class="field-body"/>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>type</strong> (string: One of <code class="docutils literal"><span class="pre">container</span></code> or <code class="docutils literal"><span class="pre">key_file</span></code>.) – What type of event to fetch.</li>
+<li><strong>type</strong> (string: One of <code class="docutils literal notranslate"><span class="pre">container</span></code> or <code class="docutils literal notranslate"><span class="pre">key_file</span></code>.) – What type of event to fetch.</li>
 <li><strong>container_id</strong> (<em>UUID</em>) – If interested in events for a particular container, pass in the ID.</li>
 <li><strong>container_type</strong> (<em>string</em>) – Filter by the type of container.</li>
-<li><strong>action</strong> (One of <code class="docutils literal"><span class="pre">accessed</span></code>, <code class="docutils literal"><span class="pre">added</span></code>, <code class="docutils literal"><span class="pre">deleted</span></code>, or <code class="docutils literal"><span class="pre">updated</span></code>.) – Filter by the event’s action.</li>
+<li><strong>action</strong> (One of <code class="docutils literal notranslate"><span class="pre">accessed</span></code>, <code class="docutils literal notranslate"><span class="pre">added</span></code>, <code class="docutils literal notranslate"><span class="pre">deleted</span></code>, or <code class="docutils literal notranslate"><span class="pre">updated</span></code>.) – Filter by the event’s action.</li>
 <li><strong>starting_event_id</strong> (<em>int</em>) – Only retrieve events &gt;= to this ID value.</li>
 </ul>
 </td>
@@ -143,7 +143,7 @@ function.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The user’s decrypted key file is returned.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">KeyFile</span></code>.</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal notranslate"><span class="pre">KeyFile</span></code>.</td>
 </tr>
 </tbody>
 </table>
@@ -177,7 +177,7 @@ hosted by the Absio API Server Application, this will return False.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>passphrase</strong> (<em>str</em>) – As the file is fetched from the Absio API Server Application, the
 passphrase must be provided.  Because the passphrase can also be used to recover the
-password, the <code class="docutils literal"><span class="pre">password</span></code> argument is optional.</li>
+password, the <code class="docutils literal notranslate"><span class="pre">password</span></code> argument is optional.</li>
 <li><strong>password</strong> (<em>str</em>) – If provided, the password will be used to decrypt the retrieved key file.
 This can be used to validate that the caller is in possession of both sets of credentials.</li>
 <li><strong>user_id</strong> (<em>UUID</em>) – If not provided, the ID of the user in the current session will be used.</li>
@@ -187,7 +187,7 @@ This can be used to validate that the caller is in possession of both sets of cr
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The user’s decrypted key file is returned.</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><code class="xref py py-class docutils literal"><span class="pre">KeyFile</span></code>.</p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><code class="xref py py-class docutils literal notranslate"><span class="pre">KeyFile</span></code>.</p>
 </td>
 </tr>
 </tbody>
@@ -213,7 +213,7 @@ This can be used to validate that the caller is in possession of both sets of cr
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A key ring containing only the public keys.</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">KeyRing</span></code></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal notranslate"><span class="pre">KeyRing</span></code></td>
 </tr>
 </tbody>
 </table>

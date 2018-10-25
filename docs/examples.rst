@@ -32,14 +32,14 @@ should be shared:
 Custom Provider
 ~~~~~~~~~~~~~~~
 
-Curious how to create your own provider?  Here's an example that illustrates using the Absio API
-Server Application for everything except the encrypted secured container content - the management
+Curious how to create your own provider?  Here's an example that illustrates using the Absio
+Broker™ application for everything except the encrypted secured container content - the management
 of the actual encrypted content is now the responsibility of the library user.
 
 Imagine that you have requirements where you cannot store your content in a cloud provider, or
 perhaps only within a specific cloud provider, or on a SAN, etc.  This provider shows how you can
 quickly override the default behavior and you become responsible for managing content, while still
-fully leveraging the Absio API Server Application for its user and key management system:
+fully leveraging the Absio Broker™ application for its user and key management system:
 
 .. literalinclude:: ../examples/providers/self_managed_content.py
 

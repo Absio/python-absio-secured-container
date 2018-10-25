@@ -35,12 +35,12 @@ Components
 
 The Absio developer toolset consists of cross platform-capable software
 development kits (SDKs), each with a simple application programming interface
-(API), and a portable server application (Absio API Server Application). The
+(API), and a portable server application (Absio Broker™ application). The
 Absio SDK is currently available in JavaScript (Browser and Node.js) and C#.
 SDKs for Swift, Java and Python will be available late summer 2017. The Absio
-Server Application is written in Python and can be deployed by the organization
+Broker™ application is written in Python and can be deployed by the organization
 via a Python package, RPM, VM or Docker container. All communication with the
-Absio Server Application is handled by the SDK methods, so no separate API
+Absio Broker™ application is handled by the SDK methods, so no separate API
 calls are required.
 
 Goals
@@ -61,16 +61,16 @@ toolset:
 - Offline access (See Obfuscating File System)
 - Strong, safe and verifiable encryption
 
-Absio API Server Application
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Absio Broker™ Application
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The Absio API Server Application is used for identity management in the Absio
+The Absio Broker™ application is used for identity management in the Absio
 ecosystem through usage and distribution of public keys.  Users are registered
-through the SDK and their public keys are stored on the Absio API Server
-Application, accessible to all other registered users.  Container access is
-stored on the Absio API Server Application.
+through the SDK and their public keys are stored on the Absio Broker™
+application, accessible to all other registered users.  Container access is
+stored on the Absio Broker™ application.
 
-The Absio API Server Application tracks and distributes container-related
+The Absio Broker™ application tracks and distributes container-related
 events when containers are:
 
 - Accessed
@@ -83,7 +83,7 @@ Users
 
 A User is an entity with a set of private keys and an identifier.  There are two main key types:
 those used for signature verification, and those used for derivation.  The user's public keys are
-registered with the Absio API Server Application and are made available to other Absio users.
+registered with the Absio Broker™ application and are made available to other Absio users.
 These public keys allow for granting access to containers and validating user actions.
 
 Users are able to create Absio Secured Containers that are each uniquely encrypted.  Optionally,
@@ -120,7 +120,7 @@ the private keys.
 
 A passphrase may also be provided and will allow a key file to be synchronized between devices as
 well as enables a secure password reset method.  By default, the user key files are backed up on
-the Absio API Server Application, but may optionally be stored locally in the Obfuscating File
+the Absio Broker™ application, but may optionally be stored locally in the Obfuscating File
 System.
 
 
@@ -131,8 +131,8 @@ Obfuscating File System
 
 If the application using the ``absio`` library supports file storage, then the library can be used
 for local storage.  The local storage acts as a cache allowing for offline access of data, as well
-improved performance (no need to request the keys and content from the Absio API Server
-Application).
+improved performance (no need to request the keys and content from the Absio Broker™
+application).
 
 Local storage is performed in the Obfuscating File System (OFS). The OFS creates random,
 nonsensical paths within the root directory for all files. This serves to remove any identifiable
@@ -148,12 +148,14 @@ using a key derived via PBKDF2 from the user's password.
 
 Each Absio Secured Container has a unique set of secret keys.
 
-- HMAC-SHA256 digests are used for content validation to mitigate content tampering.
+- HMAC-SHA384 digests are used for content validation to mitigate content tampering.
 - AES256 keys are used to individually encrypt the header and content.
 
 These secret keys are uniquely encrypted for each user that can access the container.  This
 encryption process uses Static-Ephemeral Diffie-Hellman Key Exchange (DHKE) based upon a user's
 public derivation key.  This process ensures that the decryption of the container's secret keys
 can only be accomplished using the user's corresponding private key.  Furthermore the container
-keys are signed with the creator's private signing keys to help mitigate Main-in-the-Middle
+keys are signed with the creator's private signing keys to help mitigate Man-in-the-Middle
 attacks.
+
+All encryption operations are FIPS 140-2 compliant.

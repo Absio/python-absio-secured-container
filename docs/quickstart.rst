@@ -20,7 +20,7 @@ Quick Start
 
 #. Installation::
 
-    pip install absio
+    pip install absio cryptography --no-binary=cryptography
 
 #. Import and initialize the module::
 

@@ -22,7 +22,7 @@ default, all operations will utilize the :ref:`server_cache_ofs_provider` provid
 Server
 ~~~~~~
 
-All data is synchronized with the Absio API Server Application.  Harness the power of a central
+All data is synchronized with the Absio Broker™ application.  Harness the power of a central
 server to ensure that your data is available from anywhere, anytime.
 
 .. _ofs_provider:
@@ -31,7 +31,7 @@ Obfuscating File System (OFS)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 All data is stored in the OFS.  This is an entirely local (file-system) based provider that does
-not require the usage of the Absio API Server Application.
+not require the usage of the Absio Broker™ application.
 
 For a greater understanding of the OFS, consider reading up on the :ref:`technology <ofs_tech>`
 powering it.
@@ -72,14 +72,14 @@ Utilization
 ~~~~~~~~~~~
 
 There is a provider context manager that can be used to allow for easily modifying which bits of
-data go where.  So while the default settings have the data being stored on both the Absio API
-Server Application and in your local OFS, you can selectively mark specific content as being
+data go where.  So while the default settings have the data being stored on both the Absio Broker™
+application and in your local OFS, you can selectively mark specific content as being
 stored in just one location only::
 
     import absio
     from absio.providers import provider, server, ofs, server_cache_ofs
 
-    # This content is only stored in the Absio API Server Application
+    # This content is only stored in the Absio Broker™ application
     with provider(server):
         container = absio.container.create(...)
 
